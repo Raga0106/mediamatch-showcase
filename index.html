@@ -4,13 +4,14 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#111d20" />
-  <meta name="description" content="MediaMatch — 在每個感興趣的主題裡，找到值得長期關注的創作者。體驗內容配對、來源追蹤與讀後回饋，一起打造自己的資訊圈。" />
+  <meta name="description" content="MediaMatch v1.3 — 左右滑作品，也左右滑創作者。兩種模式共用偏好，從喜歡的作品發現其他創作者，再從創作者找到更多相關作品。" />
   <meta property="og:title" content="MediaMatch — 滑出你想知道的世界" />
   <meta property="og:url" content="https://raga0106.github.io/mediamatch-showcase/" />
   <link rel="canonical" href="https://raga0106.github.io/mediamatch-showcase/" />
-  <meta property="og:description" content="從主題、創作者到每一篇作品，用配對、追蹤與讀後回饋，建立真正屬於自己的跨平台資訊圈。" />
+  <meta property="og:description" content="作品探索 ⇄ 創作者探索：切換模式保留進度，雙向推薦幫你走向其他相關來源。右滑表達興趣，追蹤建立長期資訊圈。" />
   <title>MediaMatch — 滑出你想知道的世界｜產品構想 & 夥伴招募</title>
   <link rel="stylesheet" href="creators.css" />
+  <link rel="stylesheet" href="discovery.css" />
   <style>
     :root {
       color-scheme: light;
@@ -382,27 +383,27 @@
     <div class="container nav">
       <a class="brand" href="#home" aria-label="MediaMatch 首頁"><span class="brand-mark" aria-hidden="true"></span>MediaMatch<span style="font-size:10px;color:#9eada5;font-weight:650;letter-spacing:.04em;margin-left:1px">/ CONCEPT</span></a>
       <nav class="nav-links" aria-label="主要導覽">
-        <a href="#problem">為什麼做</a><a href="#experience">內容配對</a><a href="#creators">創作者探索</a><a href="#roadmap">開發路線</a><a href="#join">加入我們</a>
+        <a href="#problem">為什麼做</a><a href="#experience">雙模式體驗</a><a href="#creators">創作者清單</a><a href="#roadmap">開發路線</a><a href="#join">加入我們</a>
       </nav>
       <div class="nav-actions"><button class="btn btn-primary" data-join>一起打造 <svg><use href="#i-arrow"/></svg></button><button class="mobile-menu-btn" id="menuBtn" aria-label="開啟導覽選單" aria-expanded="false" aria-controls="mobilePanel"><span aria-hidden="true">☰</span></button></div>
     </div>
-    <nav class="mobile-panel" id="mobilePanel" aria-label="手機導覽選單"><a href="#problem">為什麼做</a><a href="#experience">內容配對</a><a href="#creators">創作者探索</a><a href="#references">設計靈感</a><a href="#tech">如何實現</a><a href="#roadmap">開發路線</a><a href="#join">加入我們</a></nav>
+    <nav class="mobile-panel" id="mobilePanel" aria-label="手機導覽選單"><a href="#problem">為什麼做</a><a href="#experience">雙模式體驗</a><a href="#creators">創作者清單</a><a href="#references">設計靈感</a><a href="#tech">如何實現</a><a href="#roadmap">開發路線</a><a href="#join">加入我們</a></nav>
   </header>
 
   <main>
     <section class="hero" id="home">
       <div class="container hero-layout">
         <div>
-          <div class="hero-badge"><span></span> 產品構想公開中 · 尋找共同開發夥伴</div>
+          <div class="hero-badge"><span></span> v1.3 雙模式探索 · 尋找共同開發夥伴</div>
           <h1>滑出<br>你想知道的<br><em>世界。</em></h1>
-          <p class="lead">你知道自己喜歡 AI，卻還不知道該追誰？<br>用配對找到有收穫的內容，也找到值得長期關注的人。<br><strong style="color:white">MediaMatch</strong>，由你親自訓練的跨平台內容與創作者探索引擎。</p>
-          <div class="hero-cta"><a class="btn btn-primary" href="#experience">體驗內容配對 <svg><use href="#i-arrow"/></svg></a><a class="btn btn-outline-light" href="#creators">探索值得追的人 <svg><use href="#i-arrow"/></svg></a></div>
-          <div class="hero-foot"><span><b></b>主題 × 創作者 × 作品</span><span><b></b>追蹤自己的資訊圈</span><span><b></b>使用者掌控推薦</span></div>
+          <p class="lead">一篇好作品，帶你認識更多值得追的人。<br>一位喜歡的創作者，也能帶你找到其他來源的作品。<br><strong style="color:white">MediaMatch</strong>，由你親自訓練的跨平台內容與創作者探索引擎。</p>
+          <div class="hero-cta"><a class="btn btn-primary" href="#experience">體驗雙模式配對 <svg><use href="#i-arrow"/></svg></a><a class="btn btn-outline-light" href="#creators">看看創作者與作品 <svg><use href="#i-arrow"/></svg></a></div>
+          <div class="hero-foot"><span><b></b>作品 ⇄ 創作者</span><span><b></b>共用偏好，保留進度</span><span><b></b>喜歡與追蹤分開</span></div>
         </div>
         <div class="hero-vis" aria-label="MediaMatch 內容配對介面概念圖">
           <div class="orbit"></div><div class="orbit inner"></div>
-          <div class="float-pill top"><svg><use href="#i-spark"/></svg>同個主題，找到對的人</div>
-          <div class="float-pill bottom">✦ 喜歡一篇，開始認識一個來源</div>
+          <div class="float-pill top"><svg><use href="#i-spark"/></svg>作品與創作者，雙向探索</div>
+          <div class="float-pill bottom">✦ 換個入口，探索繼續</div>
           <div class="showcase-tilt"><div class="showcase-back"></div><div class="showcase">
             <div class="showcase-head"><span>✳ Today’s discovery</span><span>01 / 12</span></div>
             <div class="showcase-img"><div class="code-box">&lt;AI /&gt;</div></div>
@@ -414,7 +415,7 @@
         </div>
       </div>
     </section>
-    <div class="hero-bottom-band"><div class="container band-inner"><strong>從一次內容配對，走向長期來源追蹤。</strong><span>我們想衡量的是有效發現，以及讀完後的收穫。</span></div></div>
+    <div class="hero-bottom-band"><div class="container band-inner"><strong>右滑作品，發現其他創作者。右滑創作者，發現其他作品。</strong><span>從一次興趣，走向更大的資訊圈。</span></div></div>
 
     <section class="section" id="problem">
       <div class="container">
@@ -433,56 +434,31 @@
     <section class="section how" id="how">
       <div class="container">
         <div class="tag green reveal">02 / THE IDEA</div><h2 class="display section-heading reveal">把找知識這件事，<br>變得像配對一樣直覺。</h2>
-        <p class="section-lead reveal">內容配對與創作者探索，是兩個互相連接的入口。從一篇作品認識來源，也能先找人，再看代表作品。</p>
+        <p class="section-lead reveal">兩種模式都用左右滑動。可以先從作品找人，也可以從人找作品；推薦會延伸到相近主題或風格的其他來源。</p>
         <div class="how-grid">
-          <article class="how-card reveal"><span class="how-num">STEP 01</span><div class="how-icon"><svg><use href="#i-filter"/></svg></div><h3>表達需求</h3><p>選擇想探索的主題，再設定平台、語言等條件。興趣與硬性篩選各自處理。</p></article>
-          <article class="how-card reveal"><span class="how-num">STEP 02</span><div class="how-icon"><svg><use href="#i-layers"/></svg></div><h3>快速配對</h3><p>右滑喜歡、左滑略過，也可以收藏，或明確表示不感興趣。</p></article>
-          <article class="how-card reveal"><span class="how-num">STEP 03</span><div class="how-icon"><svg><use href="#i-people"/></svg></div><h3>認識創作者</h3><p>看內容風格、代表作品和個人偏好，再決定是否加入你的追蹤清單。</p></article>
-          <article class="how-card reveal"><span class="how-num">STEP 04</span><div class="how-icon"><svg><use href="#i-bookmark"/></svg></div><h3>讀完，再回饋</h3><p>收藏後回原平台閱讀。讀後告訴系統有沒有收穫，逐步建立自己的資訊圈。</p></article>
+          <article class="how-card reveal"><span class="how-num">STEP 01</span><div class="how-icon"><svg><use href="#i-layers"/></svg></div><h3>選一個探索入口</h3><p>作品模式看影片與文章；創作者模式看頻道、作者與資訊來源。</p></article>
+          <article class="how-card reveal"><span class="how-num">STEP 02</span><div class="how-icon"><svg><use href="#i-heart"/></svg></div><h3>滑動表達興趣</h3><p>右滑喜歡，左滑略過。不確定時先查看詳情；喜歡創作者不會自動追蹤。</p></article>
+          <article class="how-card reveal"><span class="how-num">STEP 03</span><div class="how-icon"><svg><use href="#i-compass"/></svg></div><h3>沿著推薦換個方向</h3><p>從作品看相關創作者，也從創作者發現其他來源的作品。切換時保留各自進度。</p></article>
+          <article class="how-card reveal"><span class="how-num">STEP 04</span><div class="how-icon"><svg><use href="#i-bookmark"/></svg></div><h3>收藏作品，追蹤來源</h3><p>想長期關注時再明確追蹤，閱讀後留下收穫評價，讓自己的資訊圈逐步成形。</p></article>
         </div>
       </div>
     </section>
 
     <section class="section demo-section" id="experience">
       <div class="container">
-        <div class="tag light reveal">03 / INTERACTIVE PROTOTYPE</div>
-        <h2 class="display section-heading reveal">別只聽我們說。<br><span style="color:var(--lime)">親自滑幾張看看。</span></h2>
-        <p class="section-lead reveal">用七張虛構內容體驗配對。喜歡與收藏表達興趣；想知道作者是否適合你，可以打開創作者資料，再看代表作品。</p>
-        <div class="demo-layout">
-          <div>
-            <div class="demo-stage" id="demoStage">
-              <div class="swipe-card" id="swipeCard" tabindex="0" aria-label="內容推薦卡片，可按方向鍵向左略過或向右喜歡">
-                <div class="swipe-stamp like" id="likeStamp">LIKE</div><div class="swipe-stamp nope" id="nopeStamp">PASS</div>
-                <div class="swipe-topline"><strong>✳ MediaMatch</strong><span id="cardCounter">01 / 07</span></div>
-                <div class="demo-art art-ai" id="demoArt"><div class="art-frame"></div><div class="art-frame"></div><span class="art-symbol" id="demoSymbol">AI</span></div>
-                <div class="swipe-body"><div class="swipe-chips" id="demoChips"><span>人工智慧</span></div><h3 id="demoTitle">本地 AI 模型，真的能取代雲端服務嗎？</h3><p id="demoDescription">測試 AI 本地部署的成本、效能與應用情境。</p><div class="demo-creator"><button class="demo-creator-name" id="demoCreator" type="button">查看創作者 ↗</button><button id="demoFollow" type="button" aria-pressed="false">＋ 追蹤</button></div><div class="swipe-reason" id="demoReason">推薦原因：你正在探索科技與 AI</div></div>
-              </div>
-              <div class="demo-reset" id="demoReset"><div class="check">✓</div><strong>本輪探索回顧</strong><p id="demoSummary">你已經留下自己的偏好訊號。</p><a class="btn btn-dark" href="#creators">接著探索創作者 ↗</a><button class="btn btn-outline" id="againBtn">重設這輪配對 <svg><use href="#i-arrow"/></svg></button></div>
-            </div>
-            <div class="demo-controls" id="demoControls">
-              <button class="demo-action dislike" data-action="dislike" aria-label="不感興趣"><svg><use href="#i-minus"/></svg>不感興趣</button>
-              <button class="demo-action" data-action="skip" aria-label="略過"><svg><use href="#i-x"/></svg>略過</button>
-              <button class="demo-action save" data-action="save" aria-label="收藏"><svg><use href="#i-bookmark"/></svg>收藏</button>
-              <button class="demo-action heart" data-action="like" aria-label="喜歡"><svg><use href="#i-heart"/></svg>喜歡</button>
-            </div>
-            <p class="demo-notice" id="demoNotice" aria-live="polite">手機可以左右滑動卡片；電腦可點按鈕或方向鍵。</p>
-          </div>
-          <div class="demo-side">
-            <h3>你滑的不只是一張卡片。<br>而是在塑造自己的推薦。</h3>
-            <p>「我喜歡 AI」和「我喜歡這位作者的實測」是不同的訊號。正式產品會分開學習主題、創作者與單篇作品的偏好；這裡先示範主題分數的變化。</p>
-            <div class="taste-panel"><div class="taste-head"><h4>✦ 你的興趣輪廓 <span style="color:#91aca4;font-size:11px;font-weight:550">/ 模擬數據</span></h4><button id="undoBtn" type="button">↶ 撤銷</button></div><div id="tasteRows"></div><div class="taste-foot"><span id="feedbackTotal">已配對 0 張內容</span><span id="savedTotal">收藏 0 篇</span></div></div>
-            <div class="explore-control"><div><span>新領域探索比例</span><strong id="ratioValue">20%</strong></div><label class="sr-only" for="exploreRatio">新領域探索比例</label><input id="exploreRatio" type="range" min="0" max="50" step="5" value="20"/><small id="ratioHelp">預期推薦組合：80% 熟悉主題 · 20% 探索內容</small></div>
-            <p class="small-note">卡片與分數均為虛構示意。本輪卡片順序固定，探索比例僅展示預期組合，不會改變排序。操作只保留在這次頁面中，重新整理即重設，不會送出資料。</p>
-          </div>
-        </div>
+        <div class="tag light reveal">03 / DUAL MODE DISCOVERY · v1.3</div>
+        <h2 class="display section-heading reveal">作品與創作者，<br><span style="color:var(--lime)">一起滑，雙向發現。</span></h2>
+        <p class="section-lead reveal">先喜歡一篇作品，再切換創作者模式；或先認識一位作者，看看其他來源中有哪些相關作品。兩種模式共用這次探索的偏好，進度各自保留。</p>
+        <div id="discoveryDemo"></div>
+        <noscript><p class="small-note">請啟用 JavaScript 體驗作品與創作者的雙模式配對。兩種探索共用偏好，並保留各自進度。</p></noscript>
       </div>
     </section>
 
     <section class="section" id="creators" aria-labelledby="creatorHeading">
       <div class="container">
         <div class="tag green reveal">04 / CREATOR DISCOVERY</div>
-        <h2 class="display section-heading reveal" id="creatorHeading">同樣聊 AI，<br>你想持續聽誰說？</h2>
-        <p class="section-lead reveal">分類只是起點。有人擅長實測，有人擅長快速整理；用代表作品認識風格，找到在這個主題裡對你有價值的來源。</p>
+        <h2 class="display section-heading reveal" id="creatorHeading">探索之後，<br>找到想長期關注的人。</h2>
+        <p class="section-lead reveal">這裡可以查看全部示範創作者、按條件篩選並管理追蹤。配對中的「喜歡」是興趣訊號；按下「追蹤」才會把來源加入清單。</p>
         <div class="learning-grid">
           <article class="learning-step reveal"><span>01 / TOPIC</span><h3>你想知道什麼？</h3><p>人工智慧、工程實作、商業金融……先找到有興趣的領域。</p></article>
           <article class="learning-step reveal"><span>02 / CREATOR</span><h3>你欣賞誰的方式？</h3><p>同個領域中，分開理解你對各位創作者的深度、表達與內容風格的偏好。</p></article>
@@ -502,7 +478,7 @@
           <div class="feature-big reveal"><div class="feature-icon"><svg><use href="#i-compass"/></svg></div><div><h3>「有收穫」是你的體驗。<br>可信度需要可查證的證據。</h3><p>不把粉絲數、點擊或喜歡直接當作內容品質，也不把個人偏好包裝成作者的客觀排名。</p></div></div>
           <div class="feature-stack">
             <div class="feature-small reveal"><div class="illustration">◎</div><div><h3>具體到作品的偏好</h3><p>你可以喜歡作者的實測，同時對他的新聞整理興趣不高。</p></div></div>
-            <div class="feature-small reveal"><div class="illustration">↗</div><div><h3>留給閱讀與新來源的空間</h3><p>每輪配對都有回顧；正式推薦也會保留探索，避免只看到熟悉的人。</p></div></div>
+            <div class="feature-small reveal"><div class="illustration">↗</div><div><h3>從熟悉，走向其他來源</h3><p>作品與創作者互相推薦，也保留跨來源探索；每種模式都能回顧這輪的選擇。</p></div></div>
           </div>
         </div>
       </div>
@@ -531,8 +507,8 @@
           <div class="pipe-step reveal"><div class="pipe-icon"><svg><use href="#i-layers"/></svg></div><h3>跨平台 Connector</h3><p>RSS、YouTube、公開資料來源</p></div>
           <div class="pipe-step reveal"><div class="pipe-icon"><svg><use href="#i-filter"/></svg></div><h3>內容標準化</h3><p>標籤、語言、摘要、去重</p></div>
           <div class="pipe-step reveal"><div class="pipe-icon"><svg><use href="#i-db"/></svg></div><h3>來源與代表作品</h3><p>主題歸屬、作品、追蹤清單</p></div>
-          <div class="pipe-step reveal"><div class="pipe-icon"><svg><use href="#i-spark"/></svg></div><h3>個人化排序</h3><p>主題 × 創作者 × 單篇偏好</p></div>
-          <div class="pipe-step reveal"><div class="pipe-icon"><svg><use href="#i-heart"/></svg></div><h3>回饋與迭代</h3><p>配對、讀後收穫、探索回顧</p></div>
+          <div class="pipe-step reveal"><div class="pipe-icon"><svg><use href="#i-spark"/></svg></div><h3>共用偏好引擎</h3><p>主題 × 創作者 × 作品訊號</p></div>
+          <div class="pipe-step reveal"><div class="pipe-icon"><svg><use href="#i-heart"/></svg></div><h3>雙向推薦與回饋</h3><p>作品 ⇄ 創作者，持續探索</p></div>
         </div>
         <div class="tech-line"><span>正式 App 預計採用</span><span>Next.js / TypeScript</span><span>Tailwind CSS</span><span>PostgreSQL</span><span>RSS / YouTube</span><span>pgvector（後期評估）</span><span>Open Source First</span></div>
       </div>
@@ -546,7 +522,7 @@
         <div class="reference-grid">
           <article class="reference-card reveal"><a href="https://www.help.tinder.com/hc/en-us/articles/115004647686-Tinder-Overview" target="_blank" rel="noopener noreferrer">Tinder ↗</a><h3>降低第一個決定的負擔</h3><p>在 MediaMatch，用一張內容卡表達興趣，再保留收藏與略過的不同意義。</p></article>
           <article class="reference-card reveal"><a href="https://help.hinge.co/hc/en-us/articles/360011090134-How-Do-I-Match-with-Someone-and-Start-Chatting" target="_blank" rel="noopener noreferrer">Hinge ↗</a><h3>從具體作品認識一個人</h3><p>讓使用者看代表作品、回饋單篇收穫，理解自己欣賞作者的哪些面向。</p></article>
-          <article class="reference-card reveal"><a href="https://www.coffeemeetsbagel.com/press/got-10-minutes-how-to-date-when-you%E2%80%99re-just-too-busy" target="_blank" rel="noopener noreferrer">Coffee Meets Bagel ↗</a><h3>給一輪探索清楚的終點</h3><p>本頁先用七張卡片與探索回顧示範。每日精選留待後續驗證。</p></article>
+          <article class="reference-card reveal"><a href="https://www.coffeemeetsbagel.com/press/got-10-minutes-how-to-date-when-you%E2%80%99re-just-too-busy" target="_blank" rel="noopener noreferrer">Coffee Meets Bagel ↗</a><h3>給一輪探索清楚的終點</h3><p>兩種模式各有探索進度與本輪回顧。每日精選留待後續驗證。</p></article>
           <article class="reference-card reveal"><a href="https://docs.feedly.com/article/806-how-to-follow-sources" target="_blank" rel="noopener noreferrer">Feedly ↗</a><h3>把發現變成自己的來源庫</h3><p>追蹤、取消追蹤與管理來源，讓資訊圈由使用者自己決定。</p></article>
         </div>
         <p class="reference-note reveal">以上是 MediaMatch 的設計借鏡與應用構想，連結可查看各產品官方介紹。後續也會研究 Bumble、OkCupid 的偏好表達，以及 Tapestry、Are.na 的來源整合與收藏思路；進階問答與每日精選不列入目前展示頁的已完成功能。</p>
@@ -559,7 +535,7 @@
         <h2 class="display section-heading reveal">先做對一件事。<br>然後把它做大。</h2>
         <p class="section-lead reveal">這是計畫中的開發階段，不是假裝已經完成的功能清單。每個階段都應該能展示、測試、驗證。</p>
         <div class="roadmap-list">
-          <article class="milestone highlight reveal"><div class="mile-head"><span class="mile-id">PHASE 0–1</span><span class="mile-badge">優先驗證 · Demo</span></div><h3>先把核心體驗做好</h3><p>先用測試資料驗證：從配對到追蹤，是否真的能找到適合的來源。</p><ul><li>手機優先的內容配對與收藏</li><li>按主題探索創作者及代表作品</li><li>追蹤清單與讀後收穫回饋</li><li>可解釋推薦邏輯與本輪回顧</li></ul></article>
+          <article class="milestone highlight reveal"><div class="mile-head"><span class="mile-id">PHASE 0–1</span><span class="mile-badge">v1.3 · 優先驗證</span></div><h3>雙模式，驗證同一套偏好</h3><p>用測試資料驗證從作品到人、再從人到其他作品的探索循環。</p><ul><li>作品／創作者雙模式滑動</li><li>共用偏好與各自保留的進度</li><li>跨來源推薦、詳情與本輪回顧</li><li>喜歡、追蹤與讀後回饋各自記錄</li></ul></article>
           <article class="milestone reveal"><div class="mile-head"><span class="mile-id">PHASE 2–3</span><span class="mile-badge">真實資料與內容管理</span></div><h3>接上真正的資訊來源</h3><p>核心體驗通過驗證後，再串接資料層、內容管理與平台來源。</p><ul><li>內容匯入、標準化與去重</li><li>PostgreSQL、RSS、YouTube</li><li>追蹤來源的內容篩選與持久化</li><li>主題 × 創作者偏好與自動化測試</li></ul></article>
           <article class="milestone reveal"><div class="mile-head"><span class="mile-id">LATER</span><span class="mile-badge">品質優化與長期方向</span></div><h3>建立更有用的資訊圈</h3><p>依真實使用回饋決定擴充順序，逐步探索更多內容與社群連結。</p><ul><li>推薦評估、探索與來源多樣性</li><li>語意推薦、每日精選與偏好問答</li><li>更多媒體類型與可分享清單</li><li>兼顧新來源曝光與評價偏誤</li></ul></article>
         </div>
@@ -585,7 +561,9 @@
       <div class="container">
         <div class="tag green reveal">11 / FAQ</div><h2 class="display section-heading reveal">你可能還想知道。</h2>
         <div class="faq-list">
-          <details><summary>現在產品已經開發到哪裡？</summary><p>目前是產品構想展示與可操作的前端 Demo。內容配對、創作者篩選、追蹤和讀後回饋都使用虛構資料，操作僅保留在本次頁面，重新整理即重設；尚未串接真實來源、使用者帳號、資料庫或正式推薦後端。</p></details>
+          <details><summary>現在產品已經開發到哪裡？</summary><p>目前是 v1.3 產品構想展示與可操作的前端 Demo。作品與創作者滑動、共用偏好、跨來源推薦、追蹤及讀後回饋使用虛構資料。推薦在這次頁面中以簡單規則計算，重新整理即重設；尚未串接真實來源、使用者帳號或正式推薦後端。</p></details>
+          <details><summary>切換模式會重來嗎？右滑創作者就會追蹤嗎？</summary><p>作品探索和創作者探索各自保留目前卡片及操作進度，切換模式不會重來。右滑創作者只代表感興趣，只有明確按下「追蹤」才會加入長期關注清單；這份展示清單會在重新整理後重設。</p></details>
+          <details><summary>喜歡一篇作品後，只會推薦它的作者嗎？</summary><p>推薦也會延伸到相近主題或風格的其他創作者；反過來，喜歡創作者後，也會看到其他來源的相關作品。示範會說明推薦原因，並讓你繼續查看詳情，不會把查看或切換模式自動當成喜歡。</p></details>
           <details><summary>這跟 YouTube、Feedly 或一般 RSS 閱讀器有什麼不同？</summary><p>希望從「我不知道該追誰」的問題出發：同一主題下，分別理解你喜歡哪些創作者、哪些作品與表達風格。再用追蹤管理長期來源，並透過單篇讀後回饋持續調整。</p></details>
           <details><summary>追蹤會直接訂閱我的 YouTube 帳號嗎？</summary><p>MediaMatch 內追蹤，是將來源加入自己的資訊圈。它和外部平台的訂閱分開；正式版初期會提供前往原平台的連結，不會假設能替你操作第三方帳號。本頁的追蹤僅為虛構示範。</p></details>
           <details><summary>個人偏好分數代表作者有多專業、內容有多可信嗎？</summary><p>分數僅示意這位創作者在該主題下與你的偏好是否相合。讀後「有收穫／普通／偏水」描述個人體驗，不是客觀品質、專業能力或真偽評分；可信度仍需要引用、原始資料與查核等證據。</p></details>
@@ -600,7 +578,7 @@
       <div class="container"><div class="closing-card">
         <div class="tag light">LET’S MAKE DISCOVERY BETTER</div>
         <h2 id="closingTitle">網路已經有夠多內容。<br><span>我們來做更好的入口。</span></h2>
-        <p>從一篇有收穫的內容，到一位值得長期關注的創作者，再到真正屬於自己的資訊圈。如果你也想把這個體驗做出來，歡迎一起討論、設計、開發、測試。</p>
+        <p>從作品找到人，從人發現更多作品，讓一次好發現帶出下一個可能。一起把雙向探索、可掌控的偏好與長期來源追蹤，做成真正有用的資訊圈。</p>
         <div class="closing-actions"><button class="btn btn-primary" data-join>我有興趣參與 <svg><use href="#i-arrow"/></svg></button><button class="btn btn-outline-light" id="shareBtn"><svg><use href="#i-share"/></svg> 分享這個構想</button></div>
       </div></div>
     </section>
@@ -625,6 +603,7 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script src="creators.js"></script>
+  <script src="discovery.js"></script>
   <script>
     'use strict';
     // 若有專案網站與聯絡方式，請替換空字串即可（此檔案不會收集使用者資料）。
@@ -634,110 +613,13 @@
       githubUrl: 'https://github.com/Raga0106/mediamatch-showcase'
     };
 
-    const items = [
-      {sourceId:'ai-lab',topic:'人工智慧',type:'YouTube 影片',time:'18 分鐘',depth:'中階',title:'本地 AI 模型，真的能取代雲端服務嗎？',desc:'從效能、硬體需求到隱私成本，理解本地運行 AI 的真實可能。',reason:'人工智慧主題 × 技術實測風格（示意）',art:'art-ai',symbol:'AI'},
-      {sourceId:'build-lab',topic:'工程實作',type:'技術文章',time:'12 分鐘',depth:'實作',title:'用 ESP32 打造自己的智慧感測網路',desc:'一個結合感測器、Wi-Fi 與資料顯示的完整開源實作概念。',reason:'工程實作主題 × 可重現的製作過程（示意）',art:'art-dev',symbol:'{ }'},
-      {sourceId:'longview',topic:'商業金融',type:'YouTube 影片',time:'35 分鐘',depth:'分析',title:'好產品為什麼也會失敗？',desc:'從產品市場契合、使用者研究到商業模式，重新理解創業。',reason:'商業金融主題 × 長期分析風格（示意）',art:'art-biz',symbol:'↗'},
-      {sourceId:'ai-digest',topic:'人工智慧',type:'技術文章',time:'6 分鐘',depth:'快讀',title:'這週的 AI 工具，有哪些變化值得注意？',desc:'把工具更新與應用案例濃縮成快讀整理，和深入實測是不同的內容風格。',reason:'同樣是 AI，換一位創作者與另一種深度（示意）',art:'art-science',symbol:'✦'},
-      {sourceId:'data-finance',topic:'商業金融',type:'分析文章',time:'11 分鐘',depth:'中階',title:'一張現金流量表，可以告訴我們什麼？',desc:'用資料與圖表理解企業的現金從哪裡來、又流向哪裡。',reason:'商業金融主題 × 資料佐證風格（示意）',art:'art-finance',symbol:'◎'},
-      {sourceId:'ai-lab',topic:'人工智慧',type:'YouTube 影片',time:'14 分鐘',depth:'深入',title:'同一個模型，換一套測試會有不同答案嗎？',desc:'從評測條件與實驗設計，理解數字背後的限制；你可以對同一作者的不同作品有不同看法。',reason:'再次認識同一來源的另一篇代表內容（示意）',art:'art-human',symbol:'∿'},
-      {sourceId:'circuit-notes',topic:'工程實作',type:'YouTube 影片',time:'22 分鐘',depth:'入門',title:'把一台舊筆電變成你的家庭伺服器',desc:'從 Linux、網路到自架服務，打造能實際使用的個人系統。',reason:'工程實作主題 × 循序教學風格（示意）',art:'art-learning',symbol:'⌘'}
-    ];
-    const topics=['人工智慧','工程實作','商業金融'];
-    const delta={like:16,save:22,dislike:-17,skip:0};
-    const states=[];
-    const byId = (id)=>document.getElementById(id);
-    const card=byId('swipeCard');
-    let cardAnimating=false;
-    let pointerStart=null;
+    const byId = id => document.getElementById(id);
     const toast=byId('toast');
     let toastTimer;
-    const count = (n)=>String(n).padStart(2,'0');
-    const escapeHTML=(value)=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     function showToast(msg){toast.textContent=msg;toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),2400);}
-    function score(topic){return Math.min(100,Math.max(0,42+states.filter(s=>s.topic===topic).reduce((t,s)=>t+delta[s.action],0)));}
-    function renderTaste(){
-      byId('tasteRows').innerHTML=topics.map(t=>`<div class="taste-row"><span>${escapeHTML(t)}</span><div class="taste-track" aria-label="${escapeHTML(t)}分數"><div class="taste-fill" style="width:${score(t)}%"></div></div><span class="taste-val">${score(t)}</span></div>`).join('');
-      byId('feedbackTotal').textContent=`已配對 ${states.length} 張內容`;
-      byId('savedTotal').textContent=`收藏 ${states.filter(s=>s.action==='save').length} 篇`;
-      byId('undoBtn').disabled=states.length===0;
-      byId('undoBtn').style.opacity=states.length===0?'.4':'1';
-    }
-    function renderCreatorLink(){
-      const current=items[states.length];
-      if(!current)return;
-      const creators=window.MediaMatchCreators;
-      byId('demoCreator').textContent=`${creators?.creatorLabel(current.sourceId)||'示範創作者'} · 查看作品 ↗`;
-      const followed=creators?.isFollowed(current.sourceId)||false;
-      byId('demoFollow').textContent=followed?'✓ 已追蹤':'＋ 追蹤';
-      byId('demoFollow').setAttribute('aria-pressed',String(followed));
-      byId('demoFollow').setAttribute('aria-label',`${followed?'取消追蹤':'追蹤'}${creators?.creatorLabel(current.sourceId)||'示範創作者'}`);
-    }
-    function renderCard(){
-      renderTaste();
-      const idx=states.length;
-      const finished=idx>=items.length;
-      card.style.display=finished?'none':'block';
-      byId('demoReset').style.display=finished?'flex':'none';
-      byId('demoControls').querySelectorAll('button').forEach(btn=>btn.disabled=finished);
-      byId('demoControls').style.opacity=finished?'.45':'1';
-      if(finished){
-        const liked=states.filter(s=>s.action==='like'||s.action==='save');
-        const saved=states.filter(s=>s.action==='save').length;
-        const skipped=states.filter(s=>s.action==='skip').length;
-        const disliked=states.filter(s=>s.action==='dislike').length;
-        const followed=window.MediaMatchCreators?.summary().followed||0;
-        byId('demoSummary').textContent=`喜歡 ${liked.length-saved} 張 · 收藏 ${saved} 篇 · 略過 ${skipped} 張 · 不感興趣 ${disliked} 張。${liked.length?`感興趣的主題：${[...new Set(liked.map(s=>s.topic))].join('、')}。`:'這一輪尚未選到感興趣的內容。'}目前追蹤 ${followed} 位示範創作者，可以接著看看他們的代表作品。`;
-        byId('demoNotice').textContent='概念示範結束；可以重新開始或查看右側的興趣輪廓。';
-        return;
-      }
-      const current=items[idx];
-      card.style.transition='none';card.style.opacity='1';card.style.transform='translate(0,0) rotate(0)';card.classList.remove('fly','dragging');
-      byId('likeStamp').style.opacity='0';byId('nopeStamp').style.opacity='0';
-      byId('cardCounter').textContent=`${count(idx+1)} / ${count(items.length)}`;
-      const art=byId('demoArt');art.className=`demo-art ${current.art}`;
-      byId('demoSymbol').textContent=current.symbol;
-      byId('demoChips').innerHTML=[current.topic,current.type,current.time,current.depth].map(s=>`<span>${escapeHTML(s)}</span>`).join('');
-      byId('demoTitle').textContent=current.title;
-      byId('demoDescription').textContent=current.desc;
-      renderCreatorLink();
-      byId('demoReason').textContent=`推薦原因：${current.reason}`;
-      byId('demoNotice').textContent='手機可以左右滑動卡片；電腦可點按鈕或方向鍵。';
-    }
-    function decision(action){
-      if(cardAnimating||states.length>=items.length)return;
-      if(!Object.hasOwn(delta,action))return;
-      cardAnimating=true;
-      const direction=action==='like'||action==='save'?1:-1;
-      card.style.transition='transform .28s ease, opacity .28s ease';
-      card.style.transform=`translate(${direction*540}px,${action==='save'?-75:12}px) rotate(${direction*17}deg)`;
-      card.style.opacity='0';
-      if(action==='like')byId('likeStamp').style.opacity='.9';
-      if(action==='skip'||action==='dislike')byId('nopeStamp').style.opacity='.9';
-      const current=items[states.length];
-      setTimeout(()=>{
-        states.push({topic:current.topic,action});
-        cardAnimating=false;renderCard();
-        byId('demoNotice').textContent=({like:'已記錄喜歡：相似主題偏好提高',save:'已收藏：內容及主題偏好提高',dislike:'已記錄不感興趣：相關主題偏好降低',skip:'已略過：不會直接判斷為不喜歡'})[action];
-      },285);
-    }
-    byId('demoControls').addEventListener('click',e=>{const btn=e.target.closest('[data-action]');if(btn)decision(btn.dataset.action);});
-    byId('againBtn').addEventListener('click',()=>{states.length=0;renderCard();});
-    byId('undoBtn').addEventListener('click',()=>{if(cardAnimating||states.length===0)return;states.pop();renderCard();byId('demoNotice').textContent='上一步已撤銷，偏好分數已更新。';});
-    byId('demoCreator').addEventListener('click',()=>{const current=items[states.length];if(current)window.MediaMatchCreators?.open(current.sourceId);});
-    byId('demoFollow').addEventListener('click',()=>{const current=items[states.length];if(current)window.MediaMatchCreators?.toggleFollow(current.sourceId);});
-    document.addEventListener('mediamatch:creators-change',()=>{if(states.length>=items.length)renderCard();else renderCreatorLink();});
-    byId('exploreRatio').addEventListener('input',e=>{const val=Number(e.target.value);byId('ratioValue').textContent=val+'%';byId('ratioHelp').textContent=`預期推薦組合：${100-val}% 熟悉主題 · ${val}% 探索內容`;});
-    card.addEventListener('pointerdown',e=>{if(e.target.closest('button,a')||cardAnimating||states.length>=items.length||e.button!==0)return;pointerStart={id:e.pointerId,x:e.clientX,y:e.clientY};card.classList.add('dragging');if(card.setPointerCapture)card.setPointerCapture(e.pointerId);});
-    card.addEventListener('pointermove',e=>{if(!pointerStart||pointerStart.id!==e.pointerId)return;const dx=e.clientX-pointerStart.x,dy=e.clientY-pointerStart.y;if(Math.abs(dx)>8){card.style.transform=`translate(${dx}px,${Math.max(-35,Math.min(35,dy*.15))}px) rotate(${dx*.035}deg)`;byId('likeStamp').style.opacity=dx>0?String(Math.min(.95,dx/110)):'0';byId('nopeStamp').style.opacity=dx<0?String(Math.min(.95,-dx/110)):'0';}});
-    function endDrag(e){if(!pointerStart||pointerStart.id!==e.pointerId)return;const dx=e.clientX-pointerStart.x;pointerStart=null;card.classList.remove('dragging');if(Math.abs(dx)>100){decision(dx>0?'like':'skip');}else{card.style.transition='transform .2s ease';card.style.transform='translate(0,0) rotate(0)';byId('likeStamp').style.opacity='0';byId('nopeStamp').style.opacity='0';}}
-    card.addEventListener('pointerup',endDrag);
-    card.addEventListener('pointercancel',()=>{pointerStart=null;card.classList.remove('dragging');card.style.transform='translate(0,0) rotate(0)';});
-    card.addEventListener('keydown',e=>{if(e.target.closest('button,a'))return;if(e.key==='ArrowRight'){e.preventDefault();decision('like');}else if(e.key==='ArrowLeft'){e.preventDefault();decision('skip');}});
-    renderCard();
 
     // Recruit / share interface
-    const pitch='MediaMatch 是由使用者主動訓練的跨平台內容與創作者探索引擎：從內容配對、代表作品，到追蹤來源與讀後收穫回饋，分開理解主題、創作者及單篇作品的偏好。第一版聚焦知識型內容，先驗證無需 API Key 的 Demo，再逐步串接 RSS 與 YouTube，建立屬於自己的資訊圈。現在正在尋找願意一起設計、開發、測試的夥伴。';
+    const pitch='MediaMatch v1.3 是雙模式、雙向推薦的跨平台探索引擎：左右滑作品，也左右滑創作者。兩種模式共用偏好並各自保留進度，從喜歡的作品發現其他相關創作者，也從創作者找到其他來源的作品。右滑表示興趣，明確追蹤才加入長期清單。先用無需 API Key 的 Demo 驗證，再逐步串接真實來源。現在正在尋找一起設計、開發、測試的夥伴。';
     let selectedRole='不拘，想一起討論';
     let lastFocus=null;
     const modal=byId('joinModal');

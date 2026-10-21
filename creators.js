@@ -63,6 +63,7 @@
   let activeCreatorId = null;
   let returnFocus = null;
   let returnFocusAction = null;
+  let returnDiscoveryFocus = null;
 
   const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
   const findCreator = id => creators.find(creator => creator.id === id);
@@ -72,6 +73,13 @@
   const creatorScore = creator => clamp(50 + creatorRatings(creator).reduce((total, value) => total + signals[value] * 15, 0));
   const topicScore = topic => clamp(50 + creators.filter(creator => creator.topic === topic).flatMap(creatorRatings).reduce((total, value) => total + signals[value] * 5, 0));
   const summary = () => ({ followed: followed.size, rated: ratings.size });
+  const catalog = () => creators.map(creator => Object.assign({}, creator, { works: creator.works.map(work => Object.assign({}, work)) }));
+  const getSignals = () => ({
+    followedIds: Array.from(followed),
+    creatorScores: Object.fromEntries(creators.map(creator => [creator.id, creatorScore(creator)])),
+    topicScores: Object.fromEntries(topics.map(topic => [topic, topicScore(topic)])),
+    summary: summary()
+  });
 
   function announce(message) {
     if (mount) mount.querySelector('.creator-live').textContent = message;
@@ -172,7 +180,7 @@
     notify('rating', creator, { workId, rating });
   }
 
-  function open(id) {
+  function open(id, workId, recommendationReason) {
     const creator = findCreator(id);
     if (!creator) return false;
     if (!mount) initialize();
@@ -180,18 +188,24 @@
     if (!dialog.open) {
       returnFocus = document.activeElement;
       returnFocusAction = null;
+      returnDiscoveryFocus = returnFocus && returnFocus.getAttribute ? returnFocus.getAttribute('data-discovery-focus') : null;
       if (returnFocus && mount.contains(returnFocus)) {
         const action = ['data-creator-details', 'data-creator-follow'].find(attribute => returnFocus.hasAttribute(attribute));
         if (action) returnFocusAction = { attribute: action, creatorId: returnFocus.getAttribute(action) };
       }
     }
     activeCreatorId = id;
+    const reason = typeof recommendationReason === 'string' && recommendationReason.trim()
+      ? recommendationReason.trim()
+      : `從${creator.topic}主題認識${creator.name}，看看「${creator.style}」的作品是否符合你的偏好。`;
+    const relatedCreators = creators.filter(item => item.topic === creator.topic && item.id !== creator.id);
     dialog.innerHTML = `<div class="creator-dialog-shell">
       <button type="button" class="creator-dialog-close" data-creator-close aria-label="關閉創作者視窗">×</button>
       <p class="creator-dialog-eyebrow">FICTIONAL CREATOR · 虛構創作者</p>
       <h2 id="creatorDialogTitle">${escapeHTML(creator.name)}</h2>
       <div class="creator-tags"><span>${escapeHTML(creator.topic)}</span><span>${escapeHTML(creator.platform)}</span><span>${escapeHTML(creator.language)}</span></div>
       <p class="creator-dialog-style">${escapeHTML(creator.style)}</p><p id="creatorDialogDescription">${escapeHTML(creator.description)} 以下作品皆為示意，沒有連接真實內容。</p>
+      <p class="creator-dialog-reason"><strong>探索提示</strong>${escapeHTML(reason)}</p>
       <button type="button" class="creator-follow-button${followed.has(id) ? ' creator-is-followed' : ''}" data-creator-follow="${id}" aria-pressed="${followed.has(id)}">${followLabel(creator)}</button>
       <p class="creator-follow-note">追蹤只代表加入 MediaMatch 內部清單，不會訂閱 ${escapeHTML(creator.platform)}，也不會通知任何人。</p>
       <div class="creator-dialog-signals"><div><span>我的創作者偏好</span><strong class="creator-dialog-score-value">${creatorScore(creator)} / 100</strong></div><div><span>我的${escapeHTML(creator.topic)}主題訊號</span><strong class="creator-dialog-topic-value">${topicScore(creator.topic)} / 100</strong></div></div>
@@ -202,10 +216,14 @@
         const selected = ratings.get(ratingKey(id, work.id)) || 'unrated';
         return `<article class="creator-work"><span class="creator-work-format">虛構作品 · ${escapeHTML(work.format)}</span><h4>${escapeHTML(work.title)}</h4><p>${escapeHTML(work.description)}</p><label for="creator-rating-${id}-${work.id}">讀後感受 <span>／僅影響我的偏好</span></label><select id="creator-rating-${id}-${work.id}" data-creator-rating="${work.id}" aria-label="${escapeHTML(work.title)}的讀後感受">${Object.entries(ratingLabels).map(([value, label]) => `<option value="${value}"${value === selected ? ' selected' : ''}>${label}</option>`).join('')}</select></article>`;
       }).join('')}</div>
+      <h3 class="creator-works-heading creator-related-heading">同主題的其他創作者</h3>
+      <div class="creator-related-list">${relatedCreators.map(item => `<article class="creator-work"><span class="creator-work-format">${escapeHTML(item.topic)} · ${escapeHTML(item.platform)} · 虛構示例</span><h4>${escapeHTML(item.name)}</h4><p>同樣關注${escapeHTML(item.topic)}，這位創作者的風格是「${escapeHTML(item.style)}」。可以比較另一種表達方式。</p><button type="button" class="creator-detail-button" data-creator-related="${item.id}">查看${escapeHTML(item.name)}與作品 ↗</button></article>`).join('')}</div>
       <p class="creator-dialog-status" role="status" aria-live="polite">本次操作僅保留在這個分頁的記憶體；重新整理即重設。</p>
     </div>`;
     if (!dialog.open) dialog.showModal();
-    dialog.querySelector('[data-creator-close]').focus();
+    const work = creator.works.find(item => item.id === workId);
+    const focusTarget = work ? dialog.querySelector(`[data-creator-rating="${work.id}"]`) : dialog.querySelector('[data-creator-close]');
+    focusTarget.focus();
     return true;
   }
 
@@ -260,8 +278,10 @@
     dialog.addEventListener('click', event => {
       const closeButton = event.target.closest('[data-creator-close]');
       const followButton = event.target.closest('[data-creator-follow]');
+      const relatedButton = event.target.closest('[data-creator-related]');
       if (closeButton) dialog.close();
       else if (followButton) toggleFollow(followButton.dataset.creatorFollow);
+      else if (relatedButton) open(relatedButton.dataset.creatorRelated);
       else if (event.target === dialog) {
         const rect = dialog.getBoundingClientRect();
         if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) dialog.close();
@@ -275,10 +295,12 @@
       if (returnFocus && returnFocus.isConnected && typeof returnFocus.focus === 'function') returnFocus.focus();
       else if (mount && mount.isConnected) {
         const replacement = returnFocusAction && mount.querySelector(`[${returnFocusAction.attribute}="${returnFocusAction.creatorId}"]`);
-        (replacement || mount.querySelector('[data-creator-topic="全部"]')).focus();
+        const discoveryReplacement = returnDiscoveryFocus === null ? null : Array.from(document.querySelectorAll('[data-discovery-focus]')).find(element => element.getAttribute('data-discovery-focus') === returnDiscoveryFocus);
+        (replacement || discoveryReplacement || mount.querySelector('[data-creator-topic="全部"]')).focus();
       }
       returnFocus = null;
       returnFocusAction = null;
+      returnDiscoveryFocus = null;
     });
     document.body.append(dialog);
     renderResults();
@@ -290,7 +312,9 @@
     isFollowed: id => followed.has(id),
     toggleFollow,
     creatorLabel: id => { const creator = findCreator(id); return creator ? creator.name : ''; },
-    summary
+    summary,
+    catalog,
+    getSignals
   };
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initialize, { once: true });
