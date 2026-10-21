@@ -4,12 +4,13 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#111d20" />
-  <meta name="description" content="MediaMatch — 用滑動探索值得你關注的知識、創作者與資訊來源。來認識這個跨平台內容發現專案，一起參與打造。" />
+  <meta name="description" content="MediaMatch — 在每個感興趣的主題裡，找到值得長期關注的創作者。體驗內容配對、來源追蹤與讀後回饋，一起打造自己的資訊圈。" />
   <meta property="og:title" content="MediaMatch — 滑出你想知道的世界" />
   <meta property="og:url" content="https://raga0106.github.io/mediamatch-showcase/" />
   <link rel="canonical" href="https://raga0106.github.io/mediamatch-showcase/" />
-  <meta property="og:description" content="不是再做一個社群平台，而是打造一個由使用者親自訓練的跨平台內容探索引擎。" />
+  <meta property="og:description" content="從主題、創作者到每一篇作品，用配對、追蹤與讀後回饋，建立真正屬於自己的跨平台資訊圈。" />
   <title>MediaMatch — 滑出你想知道的世界｜產品構想 & 夥伴招募</title>
+  <link rel="stylesheet" href="creators.css" />
   <style>
     :root {
       color-scheme: light;
@@ -337,6 +338,25 @@
       html{scroll-behavior:auto;}*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}
       .reveal{opacity:1;transform:none;}
     }
+    .demo-creator{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:14px 0 4px;padding-top:13px;border-top:1px solid var(--line);}
+    .demo-creator button{border:1px solid #ced9cc;background:#edf2e8;color:var(--ink);border-radius:100px;padding:8px 12px;font-size:12px;font-weight:750;}
+    .demo-creator .demo-creator-name{text-align:left;background:transparent;border:0;padding-left:0;}
+    .demo-creator button[aria-pressed="true"]{background:var(--lime);border-color:var(--lime);}
+    .learning-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:30px 0 36px;}
+    .learning-step{padding:24px;border:1px solid var(--line);border-radius:18px;background:white;}
+    .learning-step span{color:#54806b;font-size:11px;font-weight:800;letter-spacing:.06em;}
+    .learning-step h3{font-size:20px;margin:12px 0 10px;letter-spacing:-.04em;}
+    .learning-step p{color:var(--muted);font-size:14px;line-height:1.8;margin:0;}
+    .reference-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;margin:35px 0 24px;}
+    .reference-card{padding:25px;border:1px solid var(--line);border-radius:20px;background:white;}
+    .reference-card a{display:inline-flex;font-size:12px;font-weight:800;color:#467761;border-bottom:1px solid #b3c9b8;padding-bottom:4px;}
+    .reference-card h3{font-size:20px;letter-spacing:-.04em;line-height:1.4;margin:20px 0 10px;}
+    .reference-card p,.reference-note{font-size:14px;line-height:1.85;color:var(--muted);}
+    .reference-note{max-width:860px;}
+    .demo-reset .btn{font-size:13px;min-height:43px;margin-top:5px;}
+    @media(max-width:1050px){.nav-links{gap:18px;}.reference-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+    @media(max-width:800px){.learning-grid{grid-template-columns:1fr;gap:10px;}.learning-step{padding:21px;}}
+    @media(max-width:520px){.reference-grid{grid-template-columns:1fr;}.reference-card{padding:22px;}.reference-card h3{margin-top:16px;}.demo-creator{gap:5px;}.demo-creator button{font-size:11px;padding:8px 10px;}}
   </style>
 </head>
 <body>
@@ -362,11 +382,11 @@
     <div class="container nav">
       <a class="brand" href="#home" aria-label="MediaMatch 首頁"><span class="brand-mark" aria-hidden="true"></span>MediaMatch<span style="font-size:10px;color:#9eada5;font-weight:650;letter-spacing:.04em;margin-left:1px">/ CONCEPT</span></a>
       <nav class="nav-links" aria-label="主要導覽">
-        <a href="#problem">為什麼做</a><a href="#experience">產品體驗</a><a href="#tech">如何實現</a><a href="#roadmap">開發路線</a><a href="#join">加入我們</a>
+        <a href="#problem">為什麼做</a><a href="#experience">內容配對</a><a href="#creators">創作者探索</a><a href="#roadmap">開發路線</a><a href="#join">加入我們</a>
       </nav>
       <div class="nav-actions"><button class="btn btn-primary" data-join>一起打造 <svg><use href="#i-arrow"/></svg></button><button class="mobile-menu-btn" id="menuBtn" aria-label="開啟導覽選單" aria-expanded="false" aria-controls="mobilePanel"><span aria-hidden="true">☰</span></button></div>
     </div>
-    <nav class="mobile-panel" id="mobilePanel" aria-label="手機導覽選單"><a href="#problem">為什麼做</a><a href="#experience">產品體驗</a><a href="#tech">如何實現</a><a href="#roadmap">開發路線</a><a href="#join">加入我們</a></nav>
+    <nav class="mobile-panel" id="mobilePanel" aria-label="手機導覽選單"><a href="#problem">為什麼做</a><a href="#experience">內容配對</a><a href="#creators">創作者探索</a><a href="#references">設計靈感</a><a href="#tech">如何實現</a><a href="#roadmap">開發路線</a><a href="#join">加入我們</a></nav>
   </header>
 
   <main>
@@ -375,26 +395,26 @@
         <div>
           <div class="hero-badge"><span></span> 產品構想公開中 · 尋找共同開發夥伴</div>
           <h1>滑出<br>你想知道的<br><em>世界。</em></h1>
-          <p class="lead">值得看的知識散落在無數平台。<br>如果找好內容，可以像交友軟體一樣簡單呢？<br><strong style="color:white">MediaMatch</strong>，一個由你親自訓練的跨平台內容探索引擎。</p>
-          <div class="hero-cta"><a class="btn btn-primary" href="#experience">體驗配對概念 <svg><use href="#i-arrow"/></svg></a><a class="btn btn-outline-light" href="#join">看看如何參與 <svg><use href="#i-arrow"/></svg></a></div>
-          <div class="hero-foot"><span><b></b>知識探索優先</span><span><b></b>跨平台內容入口</span><span><b></b>使用者掌控推薦</span></div>
+          <p class="lead">你知道自己喜歡 AI，卻還不知道該追誰？<br>用配對找到有收穫的內容，也找到值得長期關注的人。<br><strong style="color:white">MediaMatch</strong>，由你親自訓練的跨平台內容與創作者探索引擎。</p>
+          <div class="hero-cta"><a class="btn btn-primary" href="#experience">體驗內容配對 <svg><use href="#i-arrow"/></svg></a><a class="btn btn-outline-light" href="#creators">探索值得追的人 <svg><use href="#i-arrow"/></svg></a></div>
+          <div class="hero-foot"><span><b></b>主題 × 創作者 × 作品</span><span><b></b>追蹤自己的資訊圈</span><span><b></b>使用者掌控推薦</span></div>
         </div>
         <div class="hero-vis" aria-label="MediaMatch 內容配對介面概念圖">
           <div class="orbit"></div><div class="orbit inner"></div>
-          <div class="float-pill top"><svg><use href="#i-spark"/></svg>找到值得關注的新主題</div>
-          <div class="float-pill bottom">✦ 每一滑，都更懂你一點</div>
+          <div class="float-pill top"><svg><use href="#i-spark"/></svg>同個主題，找到對的人</div>
+          <div class="float-pill bottom">✦ 喜歡一篇，開始認識一個來源</div>
           <div class="showcase-tilt"><div class="showcase-back"></div><div class="showcase">
             <div class="showcase-head"><span>✳ Today’s discovery</span><span>01 / 12</span></div>
             <div class="showcase-img"><div class="code-box">&lt;AI /&gt;</div></div>
             <div class="showcase-meta"><span class="tiny-chip">人工智慧</span><span class="tiny-chip">科技</span><span class="tiny-chip">12 分鐘</span></div>
             <h3>原來你可以在自己的電腦上跑 AI？</h3>
-            <p>從模型選擇到本地部署，一次認識值得探索的新技術。</p>
+            <p>來自「模型實測室」的代表作品。<br>看見方法、理解風格，再決定是否追蹤。<br>虛構創作者 · 介面示意</p>
             <div class="showcase-actions" aria-hidden="true"><span>×</span><span>♧</span><span>♥</span></div>
           </div></div>
         </div>
       </div>
     </section>
-    <div class="hero-bottom-band"><div class="container band-inner"><strong>不是下一個讓你無止境滑動的社群平台。</strong><span>而是幫你在更短的時間，找到真正感興趣的內容。</span></div></div>
+    <div class="hero-bottom-band"><div class="container band-inner"><strong>從一次內容配對，走向長期來源追蹤。</strong><span>我們想衡量的是有效發現，以及讀完後的收穫。</span></div></div>
 
     <section class="section" id="problem">
       <div class="container">
@@ -404,21 +424,21 @@
         <div class="problem-grid">
           <article class="problem-card reveal"><span class="problem-no">PROBLEM / 01</span><h3>內容散落各處</h3><p>教學在 YouTube、深入分析在部落格、觀點在社群。想追蹤一個主題，卻得管理一堆 App。</p></article>
           <article class="problem-card reveal"><span class="problem-no">PROBLEM / 02</span><h3>演算法不受控制</h3><p>平台越來越了解你會點什麼，卻不一定知道你真正想學什麼，更難讓你直接調整推薦方向。</p></article>
-          <article class="problem-card reveal"><span class="problem-no">PROBLEM / 03</span><h3>好內容很難被發現</h3><p>在認識優質創作者之前，你不知道該搜尋哪些名字。搜尋與訂閱需要時間，探索往往就此停止。</p></article>
+          <article class="problem-card reveal"><span class="problem-no">PROBLEM / 03</span><h3>同個主題，該追誰？</h3><p>同樣談 AI，有人做技術實測，有人整理新聞。只知道分類還不夠，你需要找到符合自己深度與風格的來源。</p></article>
         </div>
-        <div class="answer-strip reveal"><div><strong>如果發現好內容，不必從「知道誰值得追」開始呢？</strong><p>只要告訴系統什麼吸引你，讓推薦逐漸成為你的知識雷達。</p></div><span class="icon" aria-hidden="true">↗</span></div>
+        <div class="answer-strip reveal"><div><strong>找到你想學的事，也找到願意持續關注的人。</strong><p>把「主題興趣」「創作者風格」「單篇收穫」分開理解，讓推薦逐漸認識你的資訊品味。</p></div><span class="icon" aria-hidden="true">↗</span></div>
       </div>
     </section>
 
     <section class="section how" id="how">
       <div class="container">
         <div class="tag green reveal">02 / THE IDEA</div><h2 class="display section-heading reveal">把找知識這件事，<br>變得像配對一樣直覺。</h2>
-        <p class="section-lead reveal">不是要你再經營一個平台，而是讓「找到、判斷、收藏」變成一個自然的流程。</p>
+        <p class="section-lead reveal">內容配對與創作者探索，是兩個互相連接的入口。從一篇作品認識來源，也能先找人，再看代表作品。</p>
         <div class="how-grid">
-          <article class="how-card reveal"><span class="how-num">STEP 01</span><div class="how-icon"><svg><use href="#i-filter"/></svg></div><h3>選擇興趣</h3><p>挑主題、平台、語言和內容形式。不必先知道有哪些創作者。</p></article>
+          <article class="how-card reveal"><span class="how-num">STEP 01</span><div class="how-icon"><svg><use href="#i-filter"/></svg></div><h3>表達需求</h3><p>選擇想探索的主題，再設定平台、語言等條件。興趣與硬性篩選各自處理。</p></article>
           <article class="how-card reveal"><span class="how-num">STEP 02</span><div class="how-icon"><svg><use href="#i-layers"/></svg></div><h3>快速配對</h3><p>右滑喜歡、左滑略過，也可以收藏，或明確表示不感興趣。</p></article>
-          <article class="how-card reveal"><span class="how-num">STEP 03</span><div class="how-icon"><svg><use href="#i-sliders"/></svg></div><h3>調整推薦</h3><p>主題、深度與探索比例可見、可調，不被困在黑盒演算法裡。</p></article>
-          <article class="how-card reveal"><span class="how-num">STEP 04</span><div class="how-icon"><svg><use href="#i-bookmark"/></svg></div><h3>帶走發現</h3><p>收藏內容、發現新來源，再回原平台閱讀或觀看完整內容。</p></article>
+          <article class="how-card reveal"><span class="how-num">STEP 03</span><div class="how-icon"><svg><use href="#i-people"/></svg></div><h3>認識創作者</h3><p>看內容風格、代表作品和個人偏好，再決定是否加入你的追蹤清單。</p></article>
+          <article class="how-card reveal"><span class="how-num">STEP 04</span><div class="how-icon"><svg><use href="#i-bookmark"/></svg></div><h3>讀完，再回饋</h3><p>收藏後回原平台閱讀。讀後告訴系統有沒有收穫，逐步建立自己的資訊圈。</p></article>
         </div>
       </div>
     </section>
@@ -427,7 +447,7 @@
       <div class="container">
         <div class="tag light reveal">03 / INTERACTIVE PROTOTYPE</div>
         <h2 class="display section-heading reveal">別只聽我們說。<br><span style="color:var(--lime)">親自滑幾張看看。</span></h2>
-        <p class="section-lead reveal">這是一個可操作的概念 Demo。試試喜歡、略過、收藏或不感興趣，看看你的偏好輪廓怎麼變化。</p>
+        <p class="section-lead reveal">用七張虛構內容體驗配對。喜歡與收藏表達興趣；想知道作者是否適合你，可以打開創作者資料，再看代表作品。</p>
         <div class="demo-layout">
           <div>
             <div class="demo-stage" id="demoStage">
@@ -435,9 +455,9 @@
                 <div class="swipe-stamp like" id="likeStamp">LIKE</div><div class="swipe-stamp nope" id="nopeStamp">PASS</div>
                 <div class="swipe-topline"><strong>✳ MediaMatch</strong><span id="cardCounter">01 / 07</span></div>
                 <div class="demo-art art-ai" id="demoArt"><div class="art-frame"></div><div class="art-frame"></div><span class="art-symbol" id="demoSymbol">AI</span></div>
-                <div class="swipe-body"><div class="swipe-chips" id="demoChips"><span>人工智慧</span></div><h3 id="demoTitle">本地 AI 模型，真的能取代雲端服務嗎？</h3><p id="demoDescription">測試 AI 本地部署的成本、效能與應用情境。</p><div class="swipe-reason" id="demoReason">推薦原因：你正在探索科技與 AI</div></div>
+                <div class="swipe-body"><div class="swipe-chips" id="demoChips"><span>人工智慧</span></div><h3 id="demoTitle">本地 AI 模型，真的能取代雲端服務嗎？</h3><p id="demoDescription">測試 AI 本地部署的成本、效能與應用情境。</p><div class="demo-creator"><button class="demo-creator-name" id="demoCreator" type="button">查看創作者 ↗</button><button id="demoFollow" type="button" aria-pressed="false">＋ 追蹤</button></div><div class="swipe-reason" id="demoReason">推薦原因：你正在探索科技與 AI</div></div>
               </div>
-              <div class="demo-reset" id="demoReset"><div class="check">✓</div><strong>第一輪探索完成！</strong><p id="demoSummary">你已經留下自己的偏好訊號。</p><button class="btn btn-dark" id="againBtn">再體驗一次 <svg><use href="#i-arrow"/></svg></button></div>
+              <div class="demo-reset" id="demoReset"><div class="check">✓</div><strong>本輪探索回顧</strong><p id="demoSummary">你已經留下自己的偏好訊號。</p><a class="btn btn-dark" href="#creators">接著探索創作者 ↗</a><button class="btn btn-outline" id="againBtn">重設這輪配對 <svg><use href="#i-arrow"/></svg></button></div>
             </div>
             <div class="demo-controls" id="demoControls">
               <button class="demo-action dislike" data-action="dislike" aria-label="不感興趣"><svg><use href="#i-minus"/></svg>不感興趣</button>
@@ -449,25 +469,40 @@
           </div>
           <div class="demo-side">
             <h3>你滑的不只是一張卡片。<br>而是在塑造自己的推薦。</h3>
-            <p>系統不只記住一篇文章有沒有吸引你，也逐漸辨識你喜歡的主題、深度與創作者。最重要的是，這份偏好始終可以由你調整。</p>
+            <p>「我喜歡 AI」和「我喜歡這位作者的實測」是不同的訊號。正式產品會分開學習主題、創作者與單篇作品的偏好；這裡先示範主題分數的變化。</p>
             <div class="taste-panel"><div class="taste-head"><h4>✦ 你的興趣輪廓 <span style="color:#91aca4;font-size:11px;font-weight:550">/ 模擬數據</span></h4><button id="undoBtn" type="button">↶ 撤銷</button></div><div id="tasteRows"></div><div class="taste-foot"><span id="feedbackTotal">已配對 0 張內容</span><span id="savedTotal">收藏 0 篇</span></div></div>
             <div class="explore-control"><div><span>新領域探索比例</span><strong id="ratioValue">20%</strong></div><label class="sr-only" for="exploreRatio">新領域探索比例</label><input id="exploreRatio" type="range" min="0" max="50" step="5" value="20"/><small id="ratioHelp">預期推薦組合：80% 熟悉主題 · 20% 探索內容</small></div>
-            <p class="small-note">註：卡片、分數與比例為示意資料。真實產品會依內容品質、使用者回饋與多樣性進行排序；這個 Demo 不會儲存個人資訊。</p>
+            <p class="small-note">卡片與分數均為虛構示意。本輪卡片順序固定，探索比例僅展示預期組合，不會改變排序。操作只保留在這次頁面中，重新整理即重設，不會送出資料。</p>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section" id="different">
+    <section class="section" id="creators" aria-labelledby="creatorHeading">
       <div class="container">
-        <div class="tag green reveal">04 / WHAT MAKES IT DIFFERENT</div>
-        <h2 class="display section-heading reveal">不是把所有 Feed<br>塞進同一個畫面。</h2>
-        <p class="section-lead reveal">跨平台整合只是基礎。真正想解決的是：讓使用者更容易發現未知的好內容，而且知道推薦為什麼出現。</p>
+        <div class="tag green reveal">04 / CREATOR DISCOVERY</div>
+        <h2 class="display section-heading reveal" id="creatorHeading">同樣聊 AI，<br>你想持續聽誰說？</h2>
+        <p class="section-lead reveal">分類只是起點。有人擅長實測，有人擅長快速整理；用代表作品認識風格，找到在這個主題裡對你有價值的來源。</p>
+        <div class="learning-grid">
+          <article class="learning-step reveal"><span>01 / TOPIC</span><h3>你想知道什麼？</h3><p>人工智慧、工程實作、商業金融……先找到有興趣的領域。</p></article>
+          <article class="learning-step reveal"><span>02 / CREATOR</span><h3>你欣賞誰的方式？</h3><p>同個領域中，分開理解你對各位創作者的深度、表達與內容風格的偏好。</p></article>
+          <article class="learning-step reveal"><span>03 / CONTENT</span><h3>這篇真的有收穫嗎？</h3><p>追蹤作者不代表喜歡他的每篇作品。讀後回饋只描述你的收穫，不替內容做真偽認證。</p></article>
+        </div>
+        <div id="creatorExplorer"></div>
+        <noscript><p>此互動示範需要啟用 JavaScript。正式產品規劃包含按主題探索創作者、追蹤來源及讀後收穫回饋。</p></noscript>
+      </div>
+    </section>
+
+    <section class="section sources-section" id="different">
+      <div class="container">
+        <div class="tag green reveal">05 / VALUE & TRUST</div>
+        <h2 class="display section-heading reveal">對我有用，<br>也要知道有沒有根據。</h2>
+        <p class="section-lead reveal">個人收穫與內容可信度，需要不同的證據。偏好分數用來幫你找來源；判斷內容是否可信，仍要看原始資料、引用與查核。</p>
         <div class="difference-grid">
-          <div class="feature-big reveal"><div class="feature-icon"><svg><use href="#i-compass"/></svg></div><div><h3>不只推薦你喜歡的。<br>也推薦你還不知道自己會喜歡的。</h3><p>演算法保留探索空間，避免一味推送相似主題，讓知識邊界持續擴張。</p></div></div>
+          <div class="feature-big reveal"><div class="feature-icon"><svg><use href="#i-compass"/></svg></div><div><h3>「有收穫」是你的體驗。<br>可信度需要可查證的證據。</h3><p>不把粉絲數、點擊或喜歡直接當作內容品質，也不把個人偏好包裝成作者的客觀排名。</p></div></div>
           <div class="feature-stack">
-            <div class="feature-small reveal"><div class="illustration">◎</div><div><h3>透明、可調的偏好</h3><p>看見推薦理由，修改興趣輪廓；不是讓演算法替你決定一切。</p></div></div>
-            <div class="feature-small reveal"><div class="illustration">↗</div><div><h3>探索和閱讀分開</h3><p>現在沒時間也能先配對收藏，之後再回原平台認真看。</p></div></div>
+            <div class="feature-small reveal"><div class="illustration">◎</div><div><h3>具體到作品的偏好</h3><p>你可以喜歡作者的實測，同時對他的新聞整理興趣不高。</p></div></div>
+            <div class="feature-small reveal"><div class="illustration">↗</div><div><h3>留給閱讀與新來源的空間</h3><p>每輪配對都有回顧；正式推薦也會保留探索，避免只看到熟悉的人。</p></div></div>
           </div>
         </div>
       </div>
@@ -475,7 +510,7 @@
 
     <section class="section sources-section" id="sources">
       <div class="container">
-        <div class="tag green reveal">05 / CONTENT UNIVERSE</div>
+        <div class="tag green reveal">06 / CONTENT UNIVERSE</div>
         <div class="source-head"><div><h2 class="display section-heading reveal">一種興趣，<br>不該被一個平台限制。</h2><p class="section-lead reveal">首版優先串接容易合法取得公開內容中繼資料的來源，逐步建立可延展的 Connector 系統。</p></div></div>
         <div class="source-list">
           <div class="source-card reveal"><div class="source-icon yt">▶</div><div><h3>YouTube</h3><p>教學影片、長篇解說、專業頻道</p></div></div>
@@ -489,29 +524,44 @@
 
     <section class="section architecture" id="tech">
       <div class="container">
-        <div class="tag green reveal">06 / HOW WE WILL BUILD IT</div>
+        <div class="tag green reveal">07 / HOW WE WILL BUILD IT</div>
         <h2 class="display section-heading reveal">從內容流到推薦流。<br>讓想法真正能運作。</h2>
-        <p class="section-lead reveal">以模組化、低成本、可持續擴充為原則。先做可驗證的推薦系統，再視實際資料量導入語意搜尋與進階模型。</p>
+        <p class="section-lead reveal">免費、開源優先，不以付費 AI API 作為必要前提。先用無需 API Key、資料庫與登入的 Demo 驗證體驗，再逐階段導入真實來源與可測試的推薦邏輯。</p>
         <div class="pipeline">
           <div class="pipe-step reveal"><div class="pipe-icon"><svg><use href="#i-layers"/></svg></div><h3>跨平台 Connector</h3><p>RSS、YouTube、公開資料來源</p></div>
           <div class="pipe-step reveal"><div class="pipe-icon"><svg><use href="#i-filter"/></svg></div><h3>內容標準化</h3><p>標籤、語言、摘要、去重</p></div>
-          <div class="pipe-step reveal"><div class="pipe-icon"><svg><use href="#i-db"/></svg></div><h3>共享候選內容池</h3><p>排程更新與品質檢查</p></div>
-          <div class="pipe-step reveal"><div class="pipe-icon"><svg><use href="#i-spark"/></svg></div><h3>個人化排序</h3><p>偏好、品質、多樣性</p></div>
-          <div class="pipe-step reveal"><div class="pipe-icon"><svg><use href="#i-heart"/></svg></div><h3>回饋與迭代</h3><p>滑動、收藏、興趣調整</p></div>
+          <div class="pipe-step reveal"><div class="pipe-icon"><svg><use href="#i-db"/></svg></div><h3>來源與代表作品</h3><p>主題歸屬、作品、追蹤清單</p></div>
+          <div class="pipe-step reveal"><div class="pipe-icon"><svg><use href="#i-spark"/></svg></div><h3>個人化排序</h3><p>主題 × 創作者 × 單篇偏好</p></div>
+          <div class="pipe-step reveal"><div class="pipe-icon"><svg><use href="#i-heart"/></svg></div><h3>回饋與迭代</h3><p>配對、讀後收穫、探索回顧</p></div>
         </div>
-        <div class="tech-line"><span>Next.js / React</span><span>TypeScript</span><span>PostgreSQL</span><span>RSS Connectors</span><span>Python（推薦實驗）</span><span>pgvector（後期）</span><span>Open Source First</span></div>
+        <div class="tech-line"><span>正式 App 預計採用</span><span>Next.js / TypeScript</span><span>Tailwind CSS</span><span>PostgreSQL</span><span>RSS / YouTube</span><span>pgvector（後期評估）</span><span>Open Source First</span></div>
+      </div>
+    </section>
+
+    <section class="section" id="references">
+      <div class="container">
+        <div class="tag green reveal">08 / DESIGN INSPIRATION</div>
+        <h2 class="display section-heading reveal">借鏡配對的邏輯，<br>讓發現成為長期關注。</h2>
+        <p class="section-lead reveal">把現有產品的互動思路轉成知識探索：快速判斷只是入口，理解作品與持續追蹤，才讓一次發現留下來。</p>
+        <div class="reference-grid">
+          <article class="reference-card reveal"><a href="https://www.help.tinder.com/hc/en-us/articles/115004647686-Tinder-Overview" target="_blank" rel="noopener noreferrer">Tinder ↗</a><h3>降低第一個決定的負擔</h3><p>在 MediaMatch，用一張內容卡表達興趣，再保留收藏與略過的不同意義。</p></article>
+          <article class="reference-card reveal"><a href="https://help.hinge.co/hc/en-us/articles/360011090134-How-Do-I-Match-with-Someone-and-Start-Chatting" target="_blank" rel="noopener noreferrer">Hinge ↗</a><h3>從具體作品認識一個人</h3><p>讓使用者看代表作品、回饋單篇收穫，理解自己欣賞作者的哪些面向。</p></article>
+          <article class="reference-card reveal"><a href="https://www.coffeemeetsbagel.com/press/got-10-minutes-how-to-date-when-you%E2%80%99re-just-too-busy" target="_blank" rel="noopener noreferrer">Coffee Meets Bagel ↗</a><h3>給一輪探索清楚的終點</h3><p>本頁先用七張卡片與探索回顧示範。每日精選留待後續驗證。</p></article>
+          <article class="reference-card reveal"><a href="https://docs.feedly.com/article/806-how-to-follow-sources" target="_blank" rel="noopener noreferrer">Feedly ↗</a><h3>把發現變成自己的來源庫</h3><p>追蹤、取消追蹤與管理來源，讓資訊圈由使用者自己決定。</p></article>
+        </div>
+        <p class="reference-note reveal">以上是 MediaMatch 的設計借鏡與應用構想，連結可查看各產品官方介紹。後續也會研究 Bumble、OkCupid 的偏好表達，以及 Tapestry、Are.na 的來源整合與收藏思路；進階問答與每日精選不列入目前展示頁的已完成功能。</p>
       </div>
     </section>
 
     <section class="section roadmap-section" id="roadmap">
       <div class="container">
-        <div class="tag light reveal">07 / BUILD THE FUTURE</div>
+        <div class="tag light reveal">09 / BUILD THE FUTURE</div>
         <h2 class="display section-heading reveal">先做對一件事。<br>然後把它做大。</h2>
         <p class="section-lead reveal">這是計畫中的開發階段，不是假裝已經完成的功能清單。每個階段都應該能展示、測試、驗證。</p>
         <div class="roadmap-list">
-          <article class="milestone highlight reveal"><div class="mile-head"><span class="mile-id">PHASE 01</span><span class="mile-badge">優先製作 · MVP</span></div><h3>知識內容探索</h3><p>證明快速配對真的能幫使用者發現值得關注的新資訊來源。</p><ul><li>主題偏好與滑動卡片</li><li>RSS / YouTube 內容池</li><li>推薦排序與收藏</li><li>可解釋興趣輪廓</li></ul></article>
-          <article class="milestone reveal"><div class="mile-head"><span class="mile-id">PHASE 02</span><span class="mile-badge">推薦品質升級</span></div><h3>更懂你的推薦</h3><p>從手動標籤與簡單排序，逐步擴充內容理解和推薦品質。</p><ul><li>語意向量與相似度</li><li>更多來源、搜尋與篩選</li><li>探索模式與推薦多樣性</li><li>真實使用者回饋分析</li></ul></article>
-          <article class="milestone reveal"><div class="mile-head"><span class="mile-id">PHASE 03</span><span class="mile-badge">長期願景</span></div><h3>從資訊到人與社群</h3><p>擴展到全類型內容，讓使用者能分享自己的品味，探索不同的人。</p><ul><li>生活、娛樂等更多內容類型</li><li>可分享的主題清單</li><li>創作者與興趣社群探索</li><li>尊重隱私的興趣配對</li></ul></article>
+          <article class="milestone highlight reveal"><div class="mile-head"><span class="mile-id">PHASE 0–1</span><span class="mile-badge">優先驗證 · Demo</span></div><h3>先把核心體驗做好</h3><p>先用測試資料驗證：從配對到追蹤，是否真的能找到適合的來源。</p><ul><li>手機優先的內容配對與收藏</li><li>按主題探索創作者及代表作品</li><li>追蹤清單與讀後收穫回饋</li><li>可解釋推薦邏輯與本輪回顧</li></ul></article>
+          <article class="milestone reveal"><div class="mile-head"><span class="mile-id">PHASE 2–3</span><span class="mile-badge">真實資料與內容管理</span></div><h3>接上真正的資訊來源</h3><p>核心體驗通過驗證後，再串接資料層、內容管理與平台來源。</p><ul><li>內容匯入、標準化與去重</li><li>PostgreSQL、RSS、YouTube</li><li>追蹤來源的內容篩選與持久化</li><li>主題 × 創作者偏好與自動化測試</li></ul></article>
+          <article class="milestone reveal"><div class="mile-head"><span class="mile-id">LATER</span><span class="mile-badge">品質優化與長期方向</span></div><h3>建立更有用的資訊圈</h3><p>依真實使用回饋決定擴充順序，逐步探索更多內容與社群連結。</p><ul><li>推薦評估、探索與來源多樣性</li><li>語意推薦、每日精選與偏好問答</li><li>更多媒體類型與可分享清單</li><li>兼顧新來源曝光與評價偏誤</li></ul></article>
         </div>
         <div class="roadmap-foot"><span aria-hidden="true">✳</span><span>初期成功標準不是「滑得多」，而是「使用者能否找到原本不知道、卻願意持續關注的好來源」。</span></div>
       </div>
@@ -519,7 +569,7 @@
 
     <section class="section team-section" id="join">
       <div class="container">
-        <div class="tag green reveal">08 / BUILD WITH US</div>
+        <div class="tag green reveal">10 / BUILD WITH US</div>
         <div class="team-top"><div><h2 class="display section-heading reveal">這個想法，<br>想找人一起把它做出來。</h2><p class="section-lead reveal">如果你也對推薦系統、前端體驗、知識探索或開源專案感興趣，我們可以從原型開始，真正做出能用的產品。</p></div></div>
         <div class="roles">
           <article class="role reveal"><div class="role-icon"><svg><use href="#i-code"/></svg></div><div><h3>Frontend / UI・UX</h3><p>打造真正好滑、好看、手機上也順手的探索體驗，包括動畫、卡片互動和產品設計。</p><div class="skill-tags"><span>React / Next.js</span><span>Motion</span><span>Figma</span></div><button data-role="Frontend / UI・UX">我想參與這部分 ↗</button></div></article>
@@ -533,10 +583,12 @@
 
     <section class="section faq-section" id="faq">
       <div class="container">
-        <div class="tag green reveal">09 / FAQ</div><h2 class="display section-heading reveal">你可能還想知道。</h2>
+        <div class="tag green reveal">11 / FAQ</div><h2 class="display section-heading reveal">你可能還想知道。</h2>
         <div class="faq-list">
-          <details><summary>現在產品已經開發到哪裡？</summary><p>目前是產品構想與功能規劃階段。這個網頁裡的配對卡片是能操作的前端概念 Demo，用來說明互動方式；尚不是已串接真實內容及推薦後端的完整產品。</p></details>
-          <details><summary>這跟 YouTube、Feedly 或一般 RSS 閱讀器有什麼不同？</summary><p>重點不是再聚合一份內容清單，而是讓使用者從不認識來源的狀態開始，透過快速互動找出喜歡的內容與創作者，並且可以理解、修改推薦方向。</p></details>
+          <details><summary>現在產品已經開發到哪裡？</summary><p>目前是產品構想展示與可操作的前端 Demo。內容配對、創作者篩選、追蹤和讀後回饋都使用虛構資料，操作僅保留在本次頁面，重新整理即重設；尚未串接真實來源、使用者帳號、資料庫或正式推薦後端。</p></details>
+          <details><summary>這跟 YouTube、Feedly 或一般 RSS 閱讀器有什麼不同？</summary><p>希望從「我不知道該追誰」的問題出發：同一主題下，分別理解你喜歡哪些創作者、哪些作品與表達風格。再用追蹤管理長期來源，並透過單篇讀後回饋持續調整。</p></details>
+          <details><summary>追蹤會直接訂閱我的 YouTube 帳號嗎？</summary><p>MediaMatch 內追蹤，是將來源加入自己的資訊圈。它和外部平台的訂閱分開；正式版初期會提供前往原平台的連結，不會假設能替你操作第三方帳號。本頁的追蹤僅為虛構示範。</p></details>
+          <details><summary>個人偏好分數代表作者有多專業、內容有多可信嗎？</summary><p>分數僅示意這位創作者在該主題下與你的偏好是否相合。讀後「有收穫／普通／偏水」描述個人體驗，不是客觀品質、專業能力或真偽評分；可信度仍需要引用、原始資料與查核等證據。</p></details>
           <details><summary>可以免費開發嗎？會不會一直需要付 AI API 費用？</summary><p>初期以免費／開源技術、基本標籤推薦和小型內容池為主，不必在每次滑動時呼叫大型付費模型。正式部署仍可能產生主機、資料庫或外部 API 成本，會依需求逐步評估。</p></details>
           <details><summary>Instagram、TikTok 之類的平台也能直接抓內容嗎？</summary><p>不同平台對第三方資料存取、嵌入及商業使用有不同限制。我們會優先使用官方 API、RSS、合法公開資料或使用者主動提供的連結，不把違反平台規範的爬蟲當成首版基礎。</p></details>
           <details><summary>不是工程師也可以加入嗎？</summary><p>可以。產品訪談、內容來源策展、資訊架構、UI・UX 設計、使用者測試，以及介紹給適合的開發夥伴，都可能是有價值的貢獻。實際合作方式由成員共同討論。</p></details>
@@ -548,7 +600,7 @@
       <div class="container"><div class="closing-card">
         <div class="tag light">LET’S MAKE DISCOVERY BETTER</div>
         <h2 id="closingTitle">網路已經有夠多內容。<br><span>我們來做更好的入口。</span></h2>
-        <p>MediaMatch 想解決的是一個每個知識探索者都遇過的問題：我們不知道自己錯過了多少好內容。如果你也想改變這件事，歡迎一起討論、設計、開發、測試。</p>
+        <p>從一篇有收穫的內容，到一位值得長期關注的創作者，再到真正屬於自己的資訊圈。如果你也想把這個體驗做出來，歡迎一起討論、設計、開發、測試。</p>
         <div class="closing-actions"><button class="btn btn-primary" data-join>我有興趣參與 <svg><use href="#i-arrow"/></svg></button><button class="btn btn-outline-light" id="shareBtn"><svg><use href="#i-share"/></svg> 分享這個構想</button></div>
       </div></div>
     </section>
@@ -567,11 +619,12 @@
       </div>
       <div class="text-preview" id="messagePreview" aria-live="polite"></div>
       <div class="modal-actions"><a class="btn btn-dark" id="emailJoinBtn" href="#" hidden>直接寄出邀請 <svg><use href="#i-arrow"/></svg></a><button class="btn btn-dark" id="copyMessageBtn">複製參與訊息 <svg><use href="#i-arrow"/></svg></button><button class="btn btn-outline" id="copyPitchBtn">複製專案簡介</button></div>
-      <p style="font-size:11px;margin-bottom:0">提示：可在 HTML 原始碼最下方的 <code>PROJECT_CONFIG</code> 填入聯絡資訊，並將此檔放到網站空間後分享正式網址。</p>
+      <p style="font-size:11px;margin-bottom:0">複製後，可透過收到這個網站連結的管道聯絡專案發起人。這個頁面不會自動送出訊息。</p>
     </div>
   </div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+  <script src="creators.js"></script>
   <script>
     'use strict';
     // 若有專案網站與聯絡方式，請替換空字串即可（此檔案不會收集使用者資料）。
@@ -582,15 +635,15 @@
     };
 
     const items = [
-      {topic:'人工智慧',type:'YouTube 影片',time:'18 分鐘',depth:'中階',title:'本地 AI 模型，真的能取代雲端服務嗎？',desc:'從效能、硬體需求到隱私成本，理解本地運行 AI 的真實可能。',reason:'你正在探索科技與 AI',art:'art-ai',symbol:'AI'},
-      {topic:'工程實作',type:'技術文章',time:'12 分鐘',depth:'實作',title:'用 ESP32 打造自己的智慧感測網路',desc:'一個結合感測器、Wi-Fi 與資料顯示的完整開源實作概念。',reason:'與硬體和實作主題相關',art:'art-dev',symbol:'{ }'},
-      {topic:'商業金融',type:'Podcast',time:'35 分鐘',depth:'分析',title:'好產品為什麼也會失敗？',desc:'從產品市場契合、使用者研究到商業模式，重新理解創業。',reason:'屬於商業與產品設計領域',art:'art-biz',symbol:'↗'},
-      {topic:'科學研究',type:'深度文章',time:'14 分鐘',depth:'深入',title:'重力波是如何被測量出來的？',desc:'從干涉儀到微小訊號分析，揭開重要物理實驗背後的原理。',reason:'適合喜歡科學原理的讀者',art:'art-science',symbol:'∿'},
-      {topic:'人文思考',type:'部落格',time:'8 分鐘',depth:'觀點',title:'推薦演算法真的知道我們喜歡什麼嗎？',desc:'聊聊資訊同溫層、偏好的形成，以及我們還擁有多少選擇權。',reason:'拓展至科技倫理與哲學',art:'art-human',symbol:'？'},
-      {topic:'商業金融',type:'分析文章',time:'11 分鐘',depth:'中階',title:'穩定幣如何改變跨境支付？',desc:'從支付基礎設施、清算流程，到區塊鏈落地的實際挑戰。',reason:'與金融科技和商業創新相關',art:'art-finance',symbol:'◎'},
-      {topic:'工程實作',type:'YouTube 影片',time:'22 分鐘',depth:'入門',title:'把一台舊筆電變成你的家庭伺服器',desc:'從 Linux、網路到自架服務，打造能實際使用的個人系統。',reason:'延伸探索 DIY 與開源工具',art:'art-learning',symbol:'⌘'}
+      {sourceId:'ai-lab',topic:'人工智慧',type:'YouTube 影片',time:'18 分鐘',depth:'中階',title:'本地 AI 模型，真的能取代雲端服務嗎？',desc:'從效能、硬體需求到隱私成本，理解本地運行 AI 的真實可能。',reason:'人工智慧主題 × 技術實測風格（示意）',art:'art-ai',symbol:'AI'},
+      {sourceId:'build-lab',topic:'工程實作',type:'技術文章',time:'12 分鐘',depth:'實作',title:'用 ESP32 打造自己的智慧感測網路',desc:'一個結合感測器、Wi-Fi 與資料顯示的完整開源實作概念。',reason:'工程實作主題 × 可重現的製作過程（示意）',art:'art-dev',symbol:'{ }'},
+      {sourceId:'longview',topic:'商業金融',type:'YouTube 影片',time:'35 分鐘',depth:'分析',title:'好產品為什麼也會失敗？',desc:'從產品市場契合、使用者研究到商業模式，重新理解創業。',reason:'商業金融主題 × 長期分析風格（示意）',art:'art-biz',symbol:'↗'},
+      {sourceId:'ai-digest',topic:'人工智慧',type:'技術文章',time:'6 分鐘',depth:'快讀',title:'這週的 AI 工具，有哪些變化值得注意？',desc:'把工具更新與應用案例濃縮成快讀整理，和深入實測是不同的內容風格。',reason:'同樣是 AI，換一位創作者與另一種深度（示意）',art:'art-science',symbol:'✦'},
+      {sourceId:'data-finance',topic:'商業金融',type:'分析文章',time:'11 分鐘',depth:'中階',title:'一張現金流量表，可以告訴我們什麼？',desc:'用資料與圖表理解企業的現金從哪裡來、又流向哪裡。',reason:'商業金融主題 × 資料佐證風格（示意）',art:'art-finance',symbol:'◎'},
+      {sourceId:'ai-lab',topic:'人工智慧',type:'YouTube 影片',time:'14 分鐘',depth:'深入',title:'同一個模型，換一套測試會有不同答案嗎？',desc:'從評測條件與實驗設計，理解數字背後的限制；你可以對同一作者的不同作品有不同看法。',reason:'再次認識同一來源的另一篇代表內容（示意）',art:'art-human',symbol:'∿'},
+      {sourceId:'circuit-notes',topic:'工程實作',type:'YouTube 影片',time:'22 分鐘',depth:'入門',title:'把一台舊筆電變成你的家庭伺服器',desc:'從 Linux、網路到自架服務，打造能實際使用的個人系統。',reason:'工程實作主題 × 循序教學風格（示意）',art:'art-learning',symbol:'⌘'}
     ];
-    const topics=['人工智慧','工程實作','商業金融','科學研究','人文思考'];
+    const topics=['人工智慧','工程實作','商業金融'];
     const delta={like:16,save:22,dislike:-17,skip:0};
     const states=[];
     const byId = (id)=>document.getElementById(id);
@@ -610,6 +663,16 @@
       byId('undoBtn').disabled=states.length===0;
       byId('undoBtn').style.opacity=states.length===0?'.4':'1';
     }
+    function renderCreatorLink(){
+      const current=items[states.length];
+      if(!current)return;
+      const creators=window.MediaMatchCreators;
+      byId('demoCreator').textContent=`${creators?.creatorLabel(current.sourceId)||'示範創作者'} · 查看作品 ↗`;
+      const followed=creators?.isFollowed(current.sourceId)||false;
+      byId('demoFollow').textContent=followed?'✓ 已追蹤':'＋ 追蹤';
+      byId('demoFollow').setAttribute('aria-pressed',String(followed));
+      byId('demoFollow').setAttribute('aria-label',`${followed?'取消追蹤':'追蹤'}${creators?.creatorLabel(current.sourceId)||'示範創作者'}`);
+    }
     function renderCard(){
       renderTaste();
       const idx=states.length;
@@ -620,7 +683,11 @@
       byId('demoControls').style.opacity=finished?'.45':'1';
       if(finished){
         const liked=states.filter(s=>s.action==='like'||s.action==='save');
-        byId('demoSummary').textContent=liked.length?`你對 ${[...new Set(liked.map(s=>s.topic))].join('、')} 表達了興趣。這些訊號可以用來調整下次的推薦。`:'你完成了本輪探索！即使全都略過，也可以繼續調整你想看的內容。';
+        const saved=states.filter(s=>s.action==='save').length;
+        const skipped=states.filter(s=>s.action==='skip').length;
+        const disliked=states.filter(s=>s.action==='dislike').length;
+        const followed=window.MediaMatchCreators?.summary().followed||0;
+        byId('demoSummary').textContent=`喜歡 ${liked.length-saved} 張 · 收藏 ${saved} 篇 · 略過 ${skipped} 張 · 不感興趣 ${disliked} 張。${liked.length?`感興趣的主題：${[...new Set(liked.map(s=>s.topic))].join('、')}。`:'這一輪尚未選到感興趣的內容。'}目前追蹤 ${followed} 位示範創作者，可以接著看看他們的代表作品。`;
         byId('demoNotice').textContent='概念示範結束；可以重新開始或查看右側的興趣輪廓。';
         return;
       }
@@ -633,6 +700,7 @@
       byId('demoChips').innerHTML=[current.topic,current.type,current.time,current.depth].map(s=>`<span>${escapeHTML(s)}</span>`).join('');
       byId('demoTitle').textContent=current.title;
       byId('demoDescription').textContent=current.desc;
+      renderCreatorLink();
       byId('demoReason').textContent=`推薦原因：${current.reason}`;
       byId('demoNotice').textContent='手機可以左右滑動卡片；電腦可點按鈕或方向鍵。';
     }
@@ -656,17 +724,20 @@
     byId('demoControls').addEventListener('click',e=>{const btn=e.target.closest('[data-action]');if(btn)decision(btn.dataset.action);});
     byId('againBtn').addEventListener('click',()=>{states.length=0;renderCard();});
     byId('undoBtn').addEventListener('click',()=>{if(cardAnimating||states.length===0)return;states.pop();renderCard();byId('demoNotice').textContent='上一步已撤銷，偏好分數已更新。';});
+    byId('demoCreator').addEventListener('click',()=>{const current=items[states.length];if(current)window.MediaMatchCreators?.open(current.sourceId);});
+    byId('demoFollow').addEventListener('click',()=>{const current=items[states.length];if(current)window.MediaMatchCreators?.toggleFollow(current.sourceId);});
+    document.addEventListener('mediamatch:creators-change',()=>{if(states.length>=items.length)renderCard();else renderCreatorLink();});
     byId('exploreRatio').addEventListener('input',e=>{const val=Number(e.target.value);byId('ratioValue').textContent=val+'%';byId('ratioHelp').textContent=`預期推薦組合：${100-val}% 熟悉主題 · ${val}% 探索內容`;});
-    card.addEventListener('pointerdown',e=>{if(cardAnimating||states.length>=items.length||e.button!==0)return;pointerStart={id:e.pointerId,x:e.clientX,y:e.clientY};card.classList.add('dragging');if(card.setPointerCapture)card.setPointerCapture(e.pointerId);});
+    card.addEventListener('pointerdown',e=>{if(e.target.closest('button,a')||cardAnimating||states.length>=items.length||e.button!==0)return;pointerStart={id:e.pointerId,x:e.clientX,y:e.clientY};card.classList.add('dragging');if(card.setPointerCapture)card.setPointerCapture(e.pointerId);});
     card.addEventListener('pointermove',e=>{if(!pointerStart||pointerStart.id!==e.pointerId)return;const dx=e.clientX-pointerStart.x,dy=e.clientY-pointerStart.y;if(Math.abs(dx)>8){card.style.transform=`translate(${dx}px,${Math.max(-35,Math.min(35,dy*.15))}px) rotate(${dx*.035}deg)`;byId('likeStamp').style.opacity=dx>0?String(Math.min(.95,dx/110)):'0';byId('nopeStamp').style.opacity=dx<0?String(Math.min(.95,-dx/110)):'0';}});
     function endDrag(e){if(!pointerStart||pointerStart.id!==e.pointerId)return;const dx=e.clientX-pointerStart.x;pointerStart=null;card.classList.remove('dragging');if(Math.abs(dx)>100){decision(dx>0?'like':'skip');}else{card.style.transition='transform .2s ease';card.style.transform='translate(0,0) rotate(0)';byId('likeStamp').style.opacity='0';byId('nopeStamp').style.opacity='0';}}
     card.addEventListener('pointerup',endDrag);
     card.addEventListener('pointercancel',()=>{pointerStart=null;card.classList.remove('dragging');card.style.transform='translate(0,0) rotate(0)';});
-    card.addEventListener('keydown',e=>{if(e.key==='ArrowRight'){e.preventDefault();decision('like');}else if(e.key==='ArrowLeft'){e.preventDefault();decision('skip');}});
+    card.addEventListener('keydown',e=>{if(e.target.closest('button,a'))return;if(e.key==='ArrowRight'){e.preventDefault();decision('like');}else if(e.key==='ArrowLeft'){e.preventDefault();decision('skip');}});
     renderCard();
 
     // Recruit / share interface
-    const pitch='MediaMatch 是一個跨平台內容探索引擎：使用者先選擇興趣、內容形式與平台，再透過類似交友軟體的左右滑動，逐步調整自己的推薦演算法，發現原本不知道卻值得關注的知識內容與創作者。第一版聚焦 RSS、YouTube 與知識型內容，未來擴充成全類型探索平台。現在正在尋找願意一起設計、開發、測試的夥伴。';
+    const pitch='MediaMatch 是由使用者主動訓練的跨平台內容與創作者探索引擎：從內容配對、代表作品，到追蹤來源與讀後收穫回饋，分開理解主題、創作者及單篇作品的偏好。第一版聚焦知識型內容，先驗證無需 API Key 的 Demo，再逐步串接 RSS 與 YouTube，建立屬於自己的資訊圈。現在正在尋找願意一起設計、開發、測試的夥伴。';
     let selectedRole='不拘，想一起討論';
     let lastFocus=null;
     const modal=byId('joinModal');
