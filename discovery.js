@@ -175,11 +175,29 @@
 
   // Bind one gesture at a time. Touch devices implicitly capture the child
   // under the finger, so capture transfers must not cancel the card gesture.
-  function installSwipe(card, onDecision) {
+  function installSwipe(card, onDecision, options = {}) {
     let pointer = null;
+    let frame = null;
+    const view = card.ownerDocument ? card.ownerDocument.defaultView : global;
+    const requestFrame = options.requestFrame || (view.requestAnimationFrame && view.requestAnimationFrame.bind(view));
+    const cancelFrame = options.cancelFrame || (view.cancelAnimationFrame && view.cancelAnimationFrame.bind(view));
     const interactive = target => target && typeof target.closest === 'function' && target.closest('button,a,input,select,textarea');
+    const stopFrame = () => {
+      if (frame !== null && cancelFrame) cancelFrame(frame);
+      frame = null;
+    };
+    const paint = () => {
+      frame = null;
+      if (!pointer || !pointer.horizontal) return;
+      const { dx, dy } = pointer;
+      card.style.transform = `translate3d(${dx}px,${Math.max(-35, Math.min(35, dy * .15))}px,0) rotate(${dx * .035}deg)`;
+      card.style.setProperty('--swipe-progress', Math.min(.95, Math.abs(dx) / 110));
+      card.dataset.swipeDirection = dx > 0 ? 'like' : 'skip';
+    };
     const clear = () => {
+      stopFrame();
       card.style.transform = '';
+      card.style.removeProperty('--swipe-progress');
       card.removeAttribute('data-swipe-direction');
       card.classList.remove('discovery-dragging');
       pointer = null;
@@ -195,7 +213,8 @@
       if (Number.isFinite(event.clientY)) pointer.dy = event.clientY - pointer.y;
     };
     card.addEventListener('pointerdown', event => {
-      if (pointer || event.isPrimary === false || (event.button !== undefined && event.button !== 0) || interactive(event.target)) return;
+      if (pointer || (options.isEnabled && !options.isEnabled()) || event.isPrimary === false || (event.button !== undefined && event.button !== 0) || interactive(event.target)) return;
+      card.classList.remove('discovery-entering');
       pointer = { id: event.pointerId, x: event.clientX, y: event.clientY, dx: 0, dy: 0, horizontal: false, vertical: false };
       // Capture before the first move. A child's lostpointercapture can bubble
       // during this transfer; the listener below ignores that child event.
@@ -213,18 +232,30 @@
       }
       if (!pointer.horizontal) return;
       if (event.cancelable) event.preventDefault();
-      card.style.transform = `translateX(${Math.max(-130, Math.min(130, pointer.dx))}px) rotate(${pointer.dx / 28}deg)`;
-      card.dataset.swipeDirection = pointer.dx > 0 ? 'like' : 'skip';
+      if (!requestFrame) paint();
+      else if (frame === null) frame = requestFrame(paint);
     });
     card.addEventListener('pointerup', event => {
       if (!pointer || pointer.id !== event.pointerId) return;
       position(event);
       const id = pointer.id;
-      const choice = !pointer.vertical && Math.abs(pointer.dx) > 70 && Math.abs(pointer.dx) > Math.abs(pointer.dy) * 1.3
+      const choice = !pointer.vertical && Math.abs(pointer.dx) > 100 && Math.abs(pointer.dx) > Math.abs(pointer.dy) * 1.3
         ? (pointer.dx > 0 ? 'like' : 'skip') : null;
-      clear();
-      release(id);
-      if (choice) onDecision(choice);
+      if (choice) {
+        stopFrame();
+        pointer.horizontal = true;
+        paint();
+        const motion = { transform: card.style.transform, dx: pointer.dx, dy: pointer.dy };
+        // Release capture only after clearing pointer state. The resulting
+        // lostpointercapture must not reset the outgoing card to its origin.
+        pointer = null;
+        card.classList.remove('discovery-dragging');
+        release(id);
+        onDecision(choice, motion);
+      } else {
+        clear();
+        release(id);
+      }
     });
     card.addEventListener('pointercancel', event => {
       if (!pointer || pointer.id !== event.pointerId) return;
@@ -237,6 +268,7 @@
       if (typeof card.hasPointerCapture === 'function' && card.hasPointerCapture(event.pointerId)) return;
       clear();
     });
+    return { cancel() { const id = pointer && pointer.id; clear(); if (id !== null) release(id); } };
   }
 
   if (typeof module !== 'undefined' && module.exports) module.exports = { createEngine, installSwipe };
@@ -250,6 +282,10 @@
   let creatorReturnFocusKey;
   let currentDialogWorkId;
   let renderedCardKey;
+  let renderedCardWidth;
+  let swipeBinding;
+  let decisionInFlight = false;
+  let lockedButtons = [];
   const symbols = { AI: '✳', '工程實作': '{ }', '商業金融': '↗' };
   const topicClasses = { AI: 'ai', '工程實作': 'build', '商業金融': 'business' };
   const creatorAPI = () => global.MediaMatchCreators;
@@ -298,14 +334,26 @@
     const key = `${state.activeMode}:${item ? item.id : 'complete'}`;
     const slot = mount.querySelector('.discovery-card-slot');
     if (renderedCardKey !== key) {
+      const width = slot.clientWidth;
+      const sameStack = renderedCardKey && renderedCardKey.startsWith(`${state.activeMode}:`) && renderedCardWidth === width;
+      const previousHeight = sameStack ? slot.offsetHeight : 0;
+      if (swipeBinding) swipeBinding.cancel();
+      swipeBinding = null;
+      slot.style.minHeight = previousHeight ? `${previousHeight}px` : '';
       renderedCardKey = key;
+      renderedCardWidth = width;
       if (!item) {
         const history = state.modes[state.activeMode].history;
         slot.innerHTML = `<div id="discoveryCard" class="discovery-complete" tabindex="0"><span aria-hidden="true">✓</span><p>${MODE_NAMES[state.activeMode]} · 本輪完成</p><h3>每一個選擇，<br>都讓探索更像你。</h3><p>已看過 ${history.length} ${state.activeMode === 'work' ? '篇作品' : '位創作者'}，其中 ${history.filter(event => event.decision === 'like').length} ${state.activeMode === 'work' ? '篇' : '位'}有興趣。切到另一種探索，沿用同一份偏好。</p><button type="button" class="discovery-detail" data-discovery-switch-other>繼續${MODE_NAMES[state.activeMode === 'work' ? 'creator' : 'work']} →</button></div>`;
       } else {
-        slot.innerHTML = `<article id="discoveryCard" class="discovery-card" tabindex="0" aria-label="${MODE_NAMES[state.activeMode]}：${escapeHTML(state.activeMode === 'work' ? item.title : item.name)}" aria-describedby="discoveryGestureHelp" data-discovery-item="${escapeHTML(item.id)}">${state.activeMode === 'work' ? workCard(item) : creatorCard(item)}</article>`;
-        installSwipe(slot.querySelector('.discovery-card'), decision => act(decision, false));
+        slot.innerHTML = `<article id="discoveryCard" class="discovery-card discovery-entering" tabindex="0" aria-label="${MODE_NAMES[state.activeMode]}：${escapeHTML(state.activeMode === 'work' ? item.title : item.name)}" aria-describedby="discoveryGestureHelp" data-discovery-item="${escapeHTML(item.id)}">${state.activeMode === 'work' ? workCard(item) : creatorCard(item)}</article>`;
+        const card = slot.querySelector('.discovery-card');
+        swipeBinding = installSwipe(card, (decision, motion) => act(decision, false, motion), { isEnabled: () => !decisionInFlight });
+        card.addEventListener('animationend', event => { if (event.target === card) card.classList.remove('discovery-entering'); });
       }
+      // Reserve the outgoing card's space before inserting its replacement.
+      // Longer content may grow naturally; shorter cards never move controls up.
+      slot.style.minHeight = `${Math.max(previousHeight, slot.firstElementChild.offsetHeight)}px`;
     }
     const currentReason = slot.querySelector('.discovery-current-reason');
     if (currentReason && item) currentReason.textContent = engine.reason(item, state.activeMode);
@@ -361,6 +409,7 @@
   }
 
   function renderAll() {
+    if (decisionInFlight) return;
     const key = focusKey(document.activeElement);
     renderCard();
     renderPreferences();
@@ -368,18 +417,77 @@
     if (key && !document.activeElement.closest('dialog[open]')) restoreFocus(key);
   }
 
-  function act(decision, focusCard) {
+  function setDecisionBusy(busy) {
+    decisionInFlight = busy;
+    mount.setAttribute('aria-busy', String(busy));
+    if (busy) {
+      lockedButtons = Array.from(mount.querySelectorAll('button:enabled'));
+      lockedButtons.forEach(button => { button.disabled = true; button.setAttribute('data-discovery-animation-lock', ''); });
+    } else {
+      lockedButtons.forEach(button => { button.disabled = false; button.removeAttribute('data-discovery-animation-lock'); });
+      lockedButtons = [];
+    }
+  }
+
+  function flyOut(card, decision, motion) {
+    if (global.matchMedia && global.matchMedia('(prefers-reduced-motion: reduce)').matches) return Promise.resolve();
+    const direction = decision === 'like' ? 1 : -1;
+    const from = motion ? motion.transform : global.getComputedStyle(card).transform;
+    const distance = Math.max(540, global.innerWidth * .8, motion ? Math.abs(motion.dx) + 180 : 0);
+    const to = `translate3d(${direction * distance}px,12px,0) rotate(${direction * 17}deg)`;
+    card.classList.remove('discovery-entering');
+    card.classList.add('discovery-exiting');
+    card.dataset.swipeDirection = decision;
+    card.style.setProperty('--swipe-progress', .95);
+    return new Promise(resolve => {
+      let timer;
+      const finish = () => { global.clearTimeout(timer); resolve(); };
+      // Start at the exact release position rather than resetting to the center.
+      if (typeof card.animate === 'function') {
+        const animation = card.animate([{ transform: from, opacity: 1 }, { transform: to, opacity: 0 }], { duration: 280, easing: 'ease', fill: 'forwards' });
+        timer = global.setTimeout(finish, 340);
+        animation.finished.then(finish, finish);
+      } else {
+        card.style.transition = 'none';
+        card.style.transform = from === 'none' ? 'translate3d(0,0,0)' : from;
+        card.getBoundingClientRect();
+        card.style.transition = 'transform .28s ease, opacity .28s ease';
+        card.style.transform = to;
+        card.style.opacity = '0';
+        timer = global.setTimeout(finish, 285);
+      }
+    });
+  }
+
+  async function act(decision, focusCard, motion) {
+    if (decisionInFlight) return;
     const state = engine.snapshot();
     const item = engine.current();
-    if (!item || !engine.decide(decision)) return;
-    renderAll();
+    const card = mount.querySelector('.discovery-card');
+    if (!item || !card) return;
+    const actionFocusKey = focusKey(document.activeElement);
+    // Button/keyboard decisions may arrive during a short drag's return motion.
+    const releaseMotion = motion || { transform: global.getComputedStyle(card).transform, dx: 0 };
+    if (swipeBinding) swipeBinding.cancel();
+    setDecisionBusy(true);
+    let committed = false;
+    try {
+      await flyOut(card, decision, releaseMotion);
+      const current = engine.current();
+      if (engine.snapshot().activeMode === state.activeMode && current && current.id === item.id) committed = engine.decide(decision);
+    } finally {
+      setDecisionBusy(false);
+      renderAll();
+    }
+    if (!committed) return;
     const label = state.activeMode === 'work' ? item.title : item.name;
     announce(decision === 'skip' ? `已略過「${label}」，共同偏好維持不變。` : decision === 'like' ? `已記錄對「${label}」有興趣，兩種探索與推薦已更新。${state.activeMode === 'creator' ? '探索興趣與追蹤清單各自記錄。' : ''}` : `已記錄對「${label}」不感興趣，兩種探索與推薦已更新。`);
     if (focusCard) mount.querySelector('#discoveryCard').focus({ preventScroll: true });
+    else restoreFocus(actionFocusKey);
   }
 
   function switchMode(mode) {
-    if (!engine.setMode(mode)) return;
+    if (decisionInFlight || !engine.setMode(mode)) return;
     renderAll();
     const state = engine.snapshot();
     announce(`已切換${MODE_NAMES[mode]}，繼續原本進度：已探索 ${state.modes[mode].history.length} / ${state.totals[mode]}。`);
@@ -416,7 +524,7 @@
 
   function handleClick(event) {
     const button = event.target.closest('button');
-    if (!button || button.disabled) return;
+    if (!button || button.disabled || decisionInFlight) return;
     if (button.hasAttribute('data-discovery-mode')) return switchMode(button.dataset.discoveryMode);
     if (button.hasAttribute('data-discovery-decision')) return act(button.dataset.discoveryDecision, false);
     if (button.hasAttribute('data-discovery-undo')) {
@@ -485,6 +593,7 @@
     });
     mount.addEventListener('keydown', event => {
       if (event.altKey || event.ctrlKey || event.metaKey || !['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
+      if (decisionInFlight) { event.preventDefault(); return; }
       if (event.target.matches('[data-discovery-mode]')) {
         event.preventDefault();
         const mode = event.target.dataset.discoveryMode === 'work' ? 'creator' : 'work';

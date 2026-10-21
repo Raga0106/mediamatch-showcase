@@ -3,6 +3,7 @@
 .discovery-demo button, .discovery-dialog button { font: inherit; cursor: pointer; }
 .discovery-demo button { line-height: 1.5; }
 .discovery-demo button:disabled { opacity: .43; cursor: default; }
+.discovery-demo button[data-discovery-animation-lock] { opacity: 1; cursor: wait; }
 .discovery-demo button:focus-visible, .discovery-card:focus-visible, .discovery-complete:focus-visible { outline: 3px solid #dafa75; outline-offset: 5px; }
 .discovery-card button:focus-visible, .discovery-dialog button:focus-visible { outline: 3px solid #327c6a; outline-offset: 4px; }
 .discovery-mode-header { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-bottom: 28px; border-bottom: 1px solid #38504b; }
@@ -20,12 +21,22 @@
 .discovery-progress-track { height: 3px; border-radius: 10px; background: #36524a; margin-top: 6px; overflow: hidden; }
 .discovery-progress-fill { display: block; height: 100%; border-radius: inherit; background: #dafa75; transition: width .2s; }
 .discovery-mode-description { color: #adc4b7; font-size: 12px; line-height: 1.8; margin: 14px 0 20px; }
-.discovery-card-slot { min-width: 0; position: relative; }
-.discovery-card { position: relative; z-index: 1; overflow: hidden; background: #f8faf3; border: 1px solid #e2e8d7; color: #192e28; border-radius: 22px; box-shadow: 0 24px 55px #071a1b55; touch-action: pan-y; transition: transform .18s ease, border-color .18s ease; transform-origin: 50% 70%; }
+.discovery-card-slot { min-width: 0; position: relative; isolation: isolate; }
+.discovery-card-slot::before, .discovery-card-slot::after { content: ''; position: absolute; pointer-events: none; border-radius: 22px; border: 1px solid #6a8b7033; }
+.discovery-card-slot::before { z-index: 0; inset: 10px 17px 21px; background: #2f4c43; transform: translate3d(0,0,0) rotate(3deg); }
+.discovery-card-slot::after { z-index: 1; inset: 12px 14px 17px; background: #486c56; transform: translate3d(0,0,0) rotate(-3deg); }
+.discovery-card { position: relative; z-index: 2; min-height: 640px; overflow: hidden; background: #f8faf3; border: 1px solid #e2e8d7; color: #192e28; border-radius: 22px; box-shadow: 0 24px 55px #071a1b55; touch-action: pan-y; transition: transform .18s ease, border-color .18s ease; transform: translate3d(0,0,0); transform-origin: 50% 70%; will-change: transform, opacity; }
 .discovery-card::after { position: absolute; left: 23px; top: 55px; border: 3px solid currentColor; border-radius: 7px; padding: 8px 14px; color: #447451; font-size: 23px; font-weight: 850; content: '有興趣'; opacity: 0; transform: rotate(-12deg); pointer-events: none; }
-.discovery-card[data-swipe-direction="like"]::after { opacity: 1; background: #ecffd9ed; }
-.discovery-card[data-swipe-direction="skip"]::after { content: '略過'; opacity: 1; color: #58716a; background: #eef6f0ed; transform: rotate(12deg); left: auto; right: 23px; }
-.discovery-card.discovery-dragging { transition: none; user-select: none; cursor: grabbing; }
+.discovery-card[data-swipe-direction="like"]::after { opacity: var(--swipe-progress, 0); background: #ecffd9ed; }
+.discovery-card[data-swipe-direction="skip"]::after, .discovery-card[data-swipe-direction="dislike"]::after { content: '略過'; opacity: var(--swipe-progress, 0); color: #58716a; background: #eef6f0ed; transform: rotate(12deg); left: auto; right: 23px; }
+.discovery-card[data-swipe-direction="dislike"]::after { content: '不感興趣'; color: #986256; background: #fff0e4ed; }
+.discovery-card.discovery-dragging { transition: none !important; animation: none !important; user-select: none; cursor: grabbing; }
+.discovery-card.discovery-entering { animation: discovery-card-enter 160ms cubic-bezier(.2,.7,.2,1); }
+.discovery-card.discovery-exiting { pointer-events: none; cursor: default; }
+@keyframes discovery-card-enter {
+  from { opacity: .4; transform: translate3d(0,10px,0) scale(.985); }
+  to { opacity: 1; transform: translate3d(0,0,0) scale(1); }
+}
 .discovery-art { position: relative; height: 176px; padding: 20px 24px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; }
 .discovery-art::before, .discovery-art::after { content: ''; position: absolute; pointer-events: none; height: 200px; width: 200px; border: 1px solid currentColor; opacity: .13; border-radius: 50%; top: 25px; right: -15px; }
 .discovery-art::after { height: 145px; width: 145px; top: 50px; right: 13px; }
@@ -38,8 +49,8 @@
 .discovery-card-body { padding: 22px 24px 24px; }
 .discovery-tags { display: flex; flex-wrap: wrap; gap: 6px; }
 .discovery-tags > span { color: #52694d; background: #eaf0e1; border-radius: 100px; padding: 4px 8px; font-size: 9px; font-weight: 750; line-height: 1.6; }
-.discovery-card h3 { font-size: clamp(23px, 2.6vw, 29px); letter-spacing: -.055em; line-height: 1.4; margin: 15px 0 10px; overflow-wrap: anywhere; }
-.discovery-card-description { color: #647363; font-size: 12px; line-height: 1.9; margin: 0 0 15px; }
+.discovery-card h3 { min-height: 2.8em; font-size: clamp(23px, 2.6vw, 29px); letter-spacing: -.055em; line-height: 1.4; margin: 15px 0 10px; overflow-wrap: anywhere; }
+.discovery-card-description { min-height: 3.8em; color: #647363; font-size: 12px; line-height: 1.9; margin: 0 0 15px; }
 .discovery-card-style { color: #365d42; font-size: 12px; font-weight: 800; line-height: 1.7; margin: 0 0 10px; }
 .discovery-current-reason { display: flex; gap: 8px; color: #5b7352; background: #edf3e4; border-radius: 10px; padding: 11px 12px; font-size: 10px; line-height: 1.85; margin: 0 0 18px; }
 .discovery-current-reason::before { content: '✳'; color: #5a7844; font-size: 14px; flex: 0 0 auto; }
@@ -110,7 +121,7 @@
 .discovery-rec-reason { color: #a3bda5; font-size: 9px; line-height: 1.85; margin: 4px 0 14px; }
 .discovery-rec-detail { display: inline-flex; justify-content: space-between; gap: 8px; background: transparent; border: 0; border-top: 1px solid #425e4d; color: #d6eec0; font-size: 9px !important; font-weight: 750 !important; margin-top: auto; padding: 10px 0 0; text-align: left; min-height: 34px; align-items: center; }
 .discovery-rec-empty { grid-column: 1/-1; color: #9ab7a1; font-size: 11px; border: 1px dashed #48634f; border-radius: 13px; padding: 19px; line-height: 1.9; margin: 0; }
-.discovery-complete { background: #f7faf0; color: #24402f; min-height: 550px; padding: 45px 29px; border-radius: 22px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; }
+.discovery-complete { position: relative; z-index: 2; background: #f7faf0; color: #24402f; min-height: 640px; padding: 45px 29px; border-radius: 22px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; }
 .discovery-complete > span { width: 58px; height: 58px; display: grid; place-items: center; background: #dafa75; border-radius: 50%; font-size: 27px; }
 .discovery-complete h3 { font-size: 32px; line-height: 1.4; letter-spacing: -.06em; margin: 8px 0 12px; }
 .discovery-complete p { color: #6b7d63; line-height: 1.9; font-size: 12px; }
@@ -150,7 +161,9 @@
 @media (max-width: 980px) { .discovery-grid { gap: 28px; grid-template-columns: minmax(0, 1fr) minmax(0, .9fr); } .discovery-rec-group > div { grid-template-columns: 1fr; } .discovery-recommendation { padding: 14px 16px; } .discovery-rec-reason { margin-bottom: 8px; } .discovery-rec-group > h3 { flex-direction: column; gap: 2px; } .discovery-card-body { padding: 21px; } .discovery-source { flex-wrap: wrap; } .discovery-preference-panel { padding: 20px; } }
 @media (max-width: 760px) { .discovery-grid { grid-template-columns: 1fr; gap: 31px; } .discovery-side { width: 100%; max-width: 570px; margin-inline: auto; } .discovery-main { max-width: 470px; } .discovery-mode-header { align-items: flex-start; } .discovery-tabs button { padding: 11px 16px; } .discovery-mode-header > p { font-size: 10px; } .discovery-mode-header > p > span { font-size: 9px; } .discovery-rec-group > div { grid-template-columns: repeat(2, minmax(0, 1fr)); } .discovery-rec-group > h3 { flex-direction: row; gap: 10px; } .discovery-card h3 { font-size: 27px; } .discovery-source { flex-wrap: nowrap; } .discovery-preference-panel { padding: 23px; } }
 @media (max-width: 480px) { .discovery-demo { margin-top: 30px; } .discovery-mode-header { flex-direction: column; gap: 11px; padding-bottom: 20px; } .discovery-tabs { width: 100%; } .discovery-tabs button { flex: 1; padding: 10px 12px; font-size: 13px; gap: 12px; min-height: 46px; } .discovery-mode-header > p { text-align: left; line-height: 1.7; } .discovery-mode-header > p br { display: none; } .discovery-mode-header > p > span { margin-left: 14px; } .discovery-grid { padding-top: 19px; } .discovery-art { height: 153px; padding: 17px 20px; } .discovery-art-symbol { font-size: 86px; top: 45px; right: 39px; } .discovery-card-body { padding: 20px; } .discovery-card h3 { font-size: 24px; } .discovery-source { gap: 8px; } .discovery-source-link small { font-size: 7px; } .discovery-source-link strong { font-size: 10px; } .discovery-follow { padding: 8px 9px; font-size: 9px !important; } .discovery-mini-avatar { height: 30px; width: 30px; font-size: 11px; border-radius: 8px; } .discovery-card-actions { gap: 7px; } .discovery-detail, .discovery-save { font-size: 10px !important; padding: 10px; } .discovery-card-description { font-size: 11px; } .discovery-current-reason { font-size: 9px; } .discovery-controls { margin-top: 17px; gap: 7px; } .discovery-controls button { min-height: 65px; font-size: 10px; } .discovery-status { font-size: 9px; } .discovery-gesture-help { font-size: 8px; } .discovery-creator-top { padding: 19px 20px; min-height: 145px; } .discovery-profile-avatar { height: 59px; width: 59px; font-size: 27px; border-radius: 15px; } .discovery-rec-group > h3 { flex-direction: column; gap: 2px; } .discovery-recommendation { padding: 14px 12px; } .discovery-recommendation h4 { font-size: 12px; } .discovery-rec-reason { font-size: 8px; } .discovery-rec-meta { font-size: 7px; } .discovery-rec-source { font-size: 7px !important; } .discovery-dialog { width: calc(100% - 20px); max-height: calc(100dvh - 24px); border-radius: 18px; } .discovery-dialog-shell { padding: 27px 21px; } .discovery-dialog h2 { font-size: 25px; } .discovery-dialog p { font-size: 12px; } .discovery-dialog-actions { flex-direction: column; } .discovery-complete { min-height: 510px; padding: 35px 25px; } .discovery-complete h3 { font-size: 30px; } }
-@media (prefers-reduced-motion: reduce) { .discovery-demo *, .discovery-dialog * { transition: none !important; scroll-behavior: auto !important; } }
+@media (max-width: 760px) { .discovery-card, .discovery-complete { min-height: 630px; } }
+@media (max-width: 480px) { .discovery-card, .discovery-complete { min-height: 650px; } .discovery-card h3 { min-height: 2.8em; } .discovery-card-description { min-height: 5.7em; } }
+@media (prefers-reduced-motion: reduce) { .discovery-demo *, .discovery-dialog * { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }
 /* Keep the explanation and controls readable at both viewport sizes. */
 .discovery-art-label, .discovery-tags > span, .discovery-art-format { font-size: 10px; }
 .discovery-card-description { font-size: 12px; }
