@@ -14,7 +14,7 @@
 .discovery-tabs button[aria-selected="true"] span { background: #c4e564; color: #35522b; }
 .discovery-mode-header > p { margin: 0; text-align: right; color: #e9f2dd; font-size: 12px; font-weight: 700; line-height: 1.9; }
 .discovery-mode-header > p > span { color: #9eb7a9; font-weight: 450; font-size: 11px; }
-.discovery-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.02fr); gap: clamp(28px, 5vw, 72px); align-items: start; padding-top: 28px; }
+.discovery-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(260px, .8fr); gap: clamp(28px, 5vw, 72px); align-items: start; padding-top: 28px; }
 .discovery-main { min-width: 0; max-width: 510px; width: 100%; margin-inline: auto; }
 .discovery-progress { display: flex; justify-content: space-between; align-items: center; gap: 10px; min-height: 31px; color: #cbdcc7; font-size: 11px; }
 .discovery-progress button { padding: 5px 0 5px 10px; border: 0; background: transparent; color: #c5dfb0; font-size: 11px; }
@@ -88,7 +88,10 @@
 .discovery-controls button[data-discovery-decision="like"]:hover:enabled { background: #c5e956; }
 .discovery-gesture-help { text-align: center; font-size: 9px; line-height: 1.9; color: #9cb5a8; margin: 14px 0 0; }
 .discovery-status { text-align: center; font-size: 10px; line-height: 1.9; color: #c0d5b5; margin: 13px auto 0; min-height: 38px; max-width: 450px; }
-.discovery-side { min-width: 0; }
+.discovery-side { min-width: 0; width: 100%; max-width: 390px; margin-inline: auto; }
+.discovery-feed-note { border-top: 1px solid #385245; margin-top: 18px; padding-top: 17px; }
+.discovery-feed-note h4 { color: #e2efcf; font-size: 14px; line-height: 1.7; margin: 0 0 8px; }
+.discovery-feed-note p { color: #a9c1ae; font-size: 12px; line-height: 1.9; margin: 0; }
 .discovery-preference-panel { border: 1px solid #415c50; border-radius: 19px; padding: 22px; background: #1c3432; }
 .discovery-panel-heading { display: flex; justify-content: space-between; gap: 12px; align-items: center; margin-bottom: 23px; }
 .discovery-panel-heading > div > span { color: #8eae95; font-size: 8px; font-weight: 800; letter-spacing: .12em; }
@@ -106,21 +109,9 @@
 .discovery-reviewed > span { color: #96b09b; font-size: 9px; display: flex; flex-direction: column; gap: 4px; }
 .discovery-reviewed strong { color: #dbeacb; font-size: 16px; font-variant-numeric: tabular-nums; letter-spacing: .03em; }
 .discovery-saved-count { display: flex; justify-content: space-between; width: 100%; padding: 13px 0 0; margin-top: 13px; color: #b2d8b4; font-size: 10px !important; background: transparent; border: 0; border-top: 1px solid #385245; text-align: left; }
-.discovery-recommendation-heading { margin-top: 26px; }
-.discovery-recommendation-heading h3 { color: #f1f7e5; font-size: 23px; line-height: 1.4; letter-spacing: -.05em; margin: 0 0 9px; }
-.discovery-recommendation-heading p { color: #9db7a9; font-size: 11px; line-height: 1.9; margin: 0; }
-.discovery-rec-group { margin-top: 24px; }
-.discovery-rec-group > h3 { font-size: 13px; font-weight: 800; color: #e5f1d5; line-height: 1.7; margin: 0 0 10px; display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
-.discovery-rec-group > h3 > span { font-size: 8px; font-weight: 500; color: #8fac9a; }
-.discovery-rec-group > div { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-.discovery-recommendation { min-width: 0; display: flex; flex-direction: column; border: 1px solid #415c50; border-radius: 13px; padding: 15px; background: #203a35; }
-.discovery-rec-meta { display: flex; flex-wrap: wrap; gap: 5px 8px; font-size: 8px; color: #a6c49d; line-height: 1.6; }
-.discovery-recommendation h4 { color: #e9f3dc; font-size: 13px; font-weight: 750; line-height: 1.65; letter-spacing: -.02em; margin: 9px 0 7px; overflow-wrap: anywhere; }
-.discovery-rec-source { background: transparent; border: 0; padding: 0; color: #b4cfa6; font-size: 8px !important; text-align: left; align-self: start; }
-.discovery-rec-style { color: #9fbaa3; font-size: 9px; line-height: 1.8; margin: 0 0 8px; }
-.discovery-rec-reason { color: #a3bda5; font-size: 9px; line-height: 1.85; margin: 4px 0 14px; }
-.discovery-rec-detail { display: inline-flex; justify-content: space-between; gap: 8px; background: transparent; border: 0; border-top: 1px solid #425e4d; color: #d6eec0; font-size: 9px !important; font-weight: 750 !important; margin-top: auto; padding: 10px 0 0; text-align: left; min-height: 34px; align-items: center; }
-.discovery-rec-empty { grid-column: 1/-1; color: #9ab7a1; font-size: 11px; border: 1px dashed #48634f; border-radius: 13px; padding: 19px; line-height: 1.9; margin: 0; }
+
+.discovery-saved-detail { display: inline-flex; justify-content: space-between; gap: 8px; background: transparent; border: 0; border-top: 1px solid #425e4d; color: #d6eec0; font-size: 9px !important; font-weight: 750 !important; margin-top: auto; padding: 10px 0 0; text-align: left; min-height: 34px; align-items: center; }
+
 .discovery-complete { position: relative; z-index: 2; background: #f7faf0; color: #24402f; min-height: 640px; padding: 45px 29px; border-radius: 22px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; }
 .discovery-complete > span { width: 58px; height: 58px; display: grid; place-items: center; background: #dafa75; border-radius: 50%; font-size: 27px; }
 .discovery-complete h3 { font-size: 32px; line-height: 1.4; letter-spacing: -.06em; margin: 8px 0 12px; }
@@ -146,21 +137,18 @@
 .discovery-dialog-actions { display: flex; gap: 9px; flex-wrap: wrap; align-items: stretch; margin-top: 21px; }
 .discovery-dialog-actions > .discovery-detail { flex: 1; }
 .discovery-dialog .discovery-dialog-footnote { font-size: 10px; color: #829073; }
-.discovery-dialog-related-title { font-size: 16px; letter-spacing: -.02em; margin: 26px 0 12px; }
-.discovery-dialog-related > button { display: flex; flex-direction: column; align-items: flex-start; gap: 7px; padding: 17px; color: #3c5e37; background: #edf3e4; border: 1px solid #d7e2ca; border-radius: 12px; width: 100%; text-align: left; }
-.discovery-dialog-related strong { font-size: 14px; }
-.discovery-dialog-related span { color: #7a8a6e; font-size: 11px; }
+
 .discovery-dialog-status { min-height: 22px; font-size: 10px !important; color: #4a7740 !important; margin-bottom: 0 !important; }
 .discovery-saved-list { display: flex; flex-direction: column; gap: 13px; }
 .discovery-saved-list article { padding: 19px; background: #eef4e6; border: 1px solid #d6e2c9; border-radius: 13px; }
 .discovery-saved-list article > span { color: #7a8e6c; font-size: 10px; }
 .discovery-saved-list h3 { color: #355832; font-size: 17px; margin: 10px 0 14px; line-height: 1.6; }
 .discovery-saved-list article > div { display: flex; justify-content: space-between; gap: 15px; align-items: center; }
-.discovery-saved-list .discovery-rec-detail { color: #476a39; border-top: 0; padding: 8px 0; margin-top: 0; }
+.discovery-saved-list .discovery-saved-detail { color: #476a39; border-top: 0; padding: 8px 0; margin-top: 0; }
 @media (min-width: 1000px) { .discovery-side { padding-top: 0; } }
-@media (max-width: 980px) { .discovery-grid { gap: 28px; grid-template-columns: minmax(0, 1fr) minmax(0, .9fr); } .discovery-rec-group > div { grid-template-columns: 1fr; } .discovery-recommendation { padding: 14px 16px; } .discovery-rec-reason { margin-bottom: 8px; } .discovery-rec-group > h3 { flex-direction: column; gap: 2px; } .discovery-card-body { padding: 21px; } .discovery-source { flex-wrap: wrap; } .discovery-preference-panel { padding: 20px; } }
-@media (max-width: 760px) { .discovery-grid { grid-template-columns: 1fr; gap: 31px; } .discovery-side { width: 100%; max-width: 570px; margin-inline: auto; } .discovery-main { max-width: 470px; } .discovery-mode-header { align-items: flex-start; } .discovery-tabs button { padding: 11px 16px; } .discovery-mode-header > p { font-size: 10px; } .discovery-mode-header > p > span { font-size: 9px; } .discovery-rec-group > div { grid-template-columns: repeat(2, minmax(0, 1fr)); } .discovery-rec-group > h3 { flex-direction: row; gap: 10px; } .discovery-card h3 { font-size: 27px; } .discovery-source { flex-wrap: nowrap; } .discovery-preference-panel { padding: 23px; } }
-@media (max-width: 480px) { .discovery-demo { margin-top: 30px; } .discovery-mode-header { flex-direction: column; gap: 11px; padding-bottom: 20px; } .discovery-tabs { width: 100%; } .discovery-tabs button { flex: 1; padding: 10px 12px; font-size: 13px; gap: 12px; min-height: 46px; } .discovery-mode-header > p { text-align: left; line-height: 1.7; } .discovery-mode-header > p br { display: none; } .discovery-mode-header > p > span { margin-left: 14px; } .discovery-grid { padding-top: 19px; } .discovery-art { height: 153px; padding: 17px 20px; } .discovery-art-symbol { font-size: 86px; top: 45px; right: 39px; } .discovery-card-body { padding: 20px; } .discovery-card h3 { font-size: 24px; } .discovery-source { gap: 8px; } .discovery-source-link small { font-size: 7px; } .discovery-source-link strong { font-size: 10px; } .discovery-follow { padding: 8px 9px; font-size: 9px !important; } .discovery-mini-avatar { height: 30px; width: 30px; font-size: 11px; border-radius: 8px; } .discovery-card-actions { gap: 7px; } .discovery-detail, .discovery-save { font-size: 10px !important; padding: 10px; } .discovery-card-description { font-size: 11px; } .discovery-current-reason { font-size: 9px; } .discovery-controls { margin-top: 17px; gap: 7px; } .discovery-controls button { min-height: 65px; font-size: 10px; } .discovery-status { font-size: 9px; } .discovery-gesture-help { font-size: 8px; } .discovery-creator-top { padding: 19px 20px; min-height: 145px; } .discovery-profile-avatar { height: 59px; width: 59px; font-size: 27px; border-radius: 15px; } .discovery-rec-group > h3 { flex-direction: column; gap: 2px; } .discovery-recommendation { padding: 14px 12px; } .discovery-recommendation h4 { font-size: 12px; } .discovery-rec-reason { font-size: 8px; } .discovery-rec-meta { font-size: 7px; } .discovery-rec-source { font-size: 7px !important; } .discovery-dialog { width: calc(100% - 20px); max-height: calc(100dvh - 24px); border-radius: 18px; } .discovery-dialog-shell { padding: 27px 21px; } .discovery-dialog h2 { font-size: 25px; } .discovery-dialog p { font-size: 12px; } .discovery-dialog-actions { flex-direction: column; } .discovery-complete { min-height: 510px; padding: 35px 25px; } .discovery-complete h3 { font-size: 30px; } }
+@media (max-width: 980px) { .discovery-grid { gap: 28px; grid-template-columns: minmax(0, 1fr) minmax(0, .9fr); } .discovery-card-body { padding: 21px; } .discovery-source { flex-wrap: wrap; } .discovery-preference-panel { padding: 20px; } }
+@media (max-width: 760px) { .discovery-grid { grid-template-columns: 1fr; gap: 31px; } .discovery-side { width: 100%; max-width: 570px; margin-inline: auto; } .discovery-main { max-width: 470px; } .discovery-mode-header { align-items: flex-start; } .discovery-tabs button { padding: 11px 16px; } .discovery-mode-header > p { font-size: 10px; } .discovery-mode-header > p > span { font-size: 9px; } .discovery-card h3 { font-size: 27px; } .discovery-source { flex-wrap: nowrap; } .discovery-preference-panel { padding: 23px; } }
+@media (max-width: 480px) { .discovery-demo { margin-top: 30px; } .discovery-mode-header { flex-direction: column; gap: 11px; padding-bottom: 20px; } .discovery-tabs { width: 100%; } .discovery-tabs button { flex: 1; padding: 10px 12px; font-size: 13px; gap: 12px; min-height: 46px; } .discovery-mode-header > p { text-align: left; line-height: 1.7; } .discovery-mode-header > p br { display: none; } .discovery-mode-header > p > span { margin-left: 14px; } .discovery-grid { padding-top: 19px; } .discovery-art { height: 153px; padding: 17px 20px; } .discovery-art-symbol { font-size: 86px; top: 45px; right: 39px; } .discovery-card-body { padding: 20px; } .discovery-card h3 { font-size: 24px; } .discovery-source { gap: 8px; } .discovery-source-link small { font-size: 7px; } .discovery-source-link strong { font-size: 10px; } .discovery-follow { padding: 8px 9px; font-size: 9px !important; } .discovery-mini-avatar { height: 30px; width: 30px; font-size: 11px; border-radius: 8px; } .discovery-card-actions { gap: 7px; } .discovery-detail, .discovery-save { font-size: 10px !important; padding: 10px; } .discovery-card-description { font-size: 11px; } .discovery-current-reason { font-size: 9px; } .discovery-controls { margin-top: 17px; gap: 7px; } .discovery-controls button { min-height: 65px; font-size: 10px; } .discovery-status { font-size: 9px; } .discovery-gesture-help { font-size: 8px; } .discovery-creator-top { padding: 19px 20px; min-height: 145px; } .discovery-profile-avatar { height: 59px; width: 59px; font-size: 27px; border-radius: 15px; } .discovery-dialog { width: calc(100% - 20px); max-height: calc(100dvh - 24px); border-radius: 18px; } .discovery-dialog-shell { padding: 27px 21px; } .discovery-dialog h2 { font-size: 25px; } .discovery-dialog p { font-size: 12px; } .discovery-dialog-actions { flex-direction: column; } .discovery-complete { min-height: 510px; padding: 35px 25px; } .discovery-complete h3 { font-size: 30px; } }
 @media (max-width: 760px) { .discovery-card, .discovery-complete { min-height: 630px; } }
 @media (max-width: 480px) { .discovery-card, .discovery-complete { min-height: 650px; } .discovery-card h3 { min-height: 2.8em; } .discovery-card-description { min-height: 5.7em; } }
 @media (prefers-reduced-motion: reduce) { .discovery-demo *, .discovery-dialog * { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }
@@ -183,16 +171,9 @@
 .discovery-signal-note { font-size: 11px; }
 .discovery-reviewed > span { font-size: 11px; }
 .discovery-saved-count { font-size: 12px !important; }
-.discovery-recommendation-heading p { font-size: 12px; }
-.discovery-rec-group > h3 { font-size: 14px; }
-.discovery-rec-group > h3 > span { font-size: 11px; }
-.discovery-rec-meta { font-size: 10px; }
-.discovery-recommendation h4 { font-size: 14px; }
-.discovery-rec-source { font-size: 11px !important; }
-.discovery-rec-style { font-size: 11px; }
-.discovery-rec-reason { font-size: 12px; }
-.discovery-rec-detail { font-size: 12px !important; }
-.discovery-rec-empty { font-size: 12px; }
+
+.discovery-saved-detail { font-size: 12px !important; }
+
 .discovery-reset-row { font-size: 11px; }
 .discovery-reset-row button { font-size: 12px; }
 .discovery-reset-row > span { font-size: 11px; }
@@ -204,7 +185,4 @@
   .discovery-source { align-items: flex-start; flex-wrap: wrap; }
   .discovery-source-link { flex: 1 1 150px; }
   .discovery-follow { font-size: 11px !important; }
-  .discovery-rec-group > div { grid-template-columns: 1fr; }
-  .discovery-recommendation { padding: 17px; }
-  .discovery-rec-group > h3 { gap: 3px; }
 }

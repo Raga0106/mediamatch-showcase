@@ -198,7 +198,6 @@
     const reason = typeof recommendationReason === 'string' && recommendationReason.trim()
       ? recommendationReason.trim()
       : `從${creator.topic}主題認識${creator.name}，看看「${creator.style}」的作品是否符合你的偏好。`;
-    const relatedCreators = creators.filter(item => item.topic === creator.topic && item.id !== creator.id);
     dialog.innerHTML = `<div class="creator-dialog-shell">
       <button type="button" class="creator-dialog-close" data-creator-close aria-label="關閉創作者視窗">×</button>
       <p class="creator-dialog-eyebrow">FICTIONAL CREATOR · 虛構創作者</p>
@@ -216,8 +215,6 @@
         const selected = ratings.get(ratingKey(id, work.id)) || 'unrated';
         return `<article class="creator-work"><span class="creator-work-format">虛構作品 · ${escapeHTML(work.format)}</span><h4>${escapeHTML(work.title)}</h4><p>${escapeHTML(work.description)}</p><label for="creator-rating-${id}-${work.id}">讀後感受 <span>／僅影響我的偏好</span></label><select id="creator-rating-${id}-${work.id}" data-creator-rating="${work.id}" aria-label="${escapeHTML(work.title)}的讀後感受">${Object.entries(ratingLabels).map(([value, label]) => `<option value="${value}"${value === selected ? ' selected' : ''}>${label}</option>`).join('')}</select></article>`;
       }).join('')}</div>
-      <h3 class="creator-works-heading creator-related-heading">同主題的其他創作者</h3>
-      <div class="creator-related-list">${relatedCreators.map(item => `<article class="creator-work"><span class="creator-work-format">${escapeHTML(item.topic)} · ${escapeHTML(item.platform)} · 虛構示例</span><h4>${escapeHTML(item.name)}</h4><p>同樣關注${escapeHTML(item.topic)}，這位創作者的風格是「${escapeHTML(item.style)}」。可以比較另一種表達方式。</p><button type="button" class="creator-detail-button" data-creator-related="${item.id}">查看${escapeHTML(item.name)}與作品 ↗</button></article>`).join('')}</div>
       <p class="creator-dialog-status" role="status" aria-live="polite">本次操作僅保留在這個分頁的記憶體；重新整理即重設。</p>
     </div>`;
     if (!dialog.open) dialog.showModal();
@@ -278,10 +275,8 @@
     dialog.addEventListener('click', event => {
       const closeButton = event.target.closest('[data-creator-close]');
       const followButton = event.target.closest('[data-creator-follow]');
-      const relatedButton = event.target.closest('[data-creator-related]');
       if (closeButton) dialog.close();
       else if (followButton) toggleFollow(followButton.dataset.creatorFollow);
-      else if (relatedButton) open(relatedButton.dataset.creatorRelated);
       else if (event.target === dialog) {
         const rect = dialog.getBoundingClientRect();
         if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) dialog.close();

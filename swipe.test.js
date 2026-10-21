@@ -153,12 +153,15 @@ test('a nested-child touch drag survives implicit capture transfer and commits o
   assert.deepEqual(swipe.decisions, ['like']);
 });
 
-test('left touch swipe records a neutral skip', () => {
+test('left touch release records a dislike', () => {
   const swipe = fixture();
   swipe.send('pointerdown', { clientX: 180, clientY: 100 });
   swipe.send('pointermove', { clientX: 140, clientY: 104 });
+  assert.equal(swipe.card.dataset.swipeDirection, 'dislike');
   swipe.send('pointerup', { clientX: 50, clientY: 109 });
-  assert.deepEqual(swipe.decisions, ['skip']);
+  assert.deepEqual(swipe.decisions, ['dislike']);
+  assert.equal(swipe.card.dataset.swipeDirection, 'dislike');
+  assert.equal(swipe.motions[0].motion.dx, -130);
 });
 
 test('vertical touch scrolling is never prevented and never decides', () => {
@@ -272,9 +275,10 @@ test('the directional stamp progressively follows drag distance and caps below f
   assert.equal(swipe.card.dataset.swipeDirection, 'like');
   assert.ok(Math.abs(Number(swipe.card.style.getPropertyValue('--swipe-progress')) - 0.2) < 0.00001);
   swipe.send('pointermove', { clientX: 95, clientY: 82 });
-  assert.equal(swipe.card.dataset.swipeDirection, 'skip');
+  assert.equal(swipe.card.dataset.swipeDirection, 'dislike');
   assert.ok(Math.abs(Number(swipe.card.style.getPropertyValue('--swipe-progress')) - 0.5) < 0.00001);
   swipe.send('pointermove', { clientX: 340, clientY: 83 });
+  assert.equal(swipe.card.dataset.swipeDirection, 'like');
   assert.equal(Number(swipe.card.style.getPropertyValue('--swipe-progress')), 0.95);
 });
 
@@ -368,7 +372,7 @@ test('pointer cancellation cannot leave a frame that paints an abandoned drag', 
 });
 
 test('a swipe must travel strictly more than 100 pixels to commit', () => {
-  for (const [distance, expected] of [[99, []], [100, []], [101, ['like']], [-100, []], [-101, ['skip']]]) {
+  for (const [distance, expected] of [[99, []], [100, []], [101, ['like']], [-100, []], [-101, ['dislike']]]) {
     const swipe = fixture();
     swipe.send('pointerdown', { clientX: 200, clientY: 80 });
     swipe.send('pointermove', { clientX: 200 + distance, clientY: 82 });

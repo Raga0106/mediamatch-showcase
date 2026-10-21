@@ -19,6 +19,17 @@ const external = () => ({
 });
 const make = () => createEngine(catalog, external());
 
+function remainingSequentialOrder(engine, mode) {
+  engine.setMode(mode);
+  const order = [];
+  while (engine.current()) {
+    assert.ok(order.length < 12, 'A deck must finish without repeating cards');
+    order.push(engine.current().id);
+    engine.decide('skip');
+  }
+  return order;
+}
+
 test('switching modes preserves each current card and decision history', () => {
   const engine = make();
   engine.decide('like');
@@ -54,27 +65,7 @@ test('a creator interest is local and never follows or rewrites external reading
   assert.ok(engine.snapshot().signals.topic.AI > 50);
 });
 
-test('liking a work recommends another same-topic creator', () => {
-  const engine = make();
-  const liked = engine.current();
-  engine.decide('like');
-  const recommendations = engine.recommendations('creator', 2);
-  assert.ok(recommendations.some(({ item }) => item.topic === liked.topic && item.creatorId !== liked.creatorId));
-  assert.ok(recommendations.every(({ item }) => item.creatorId !== liked.creatorId));
-  assert.match(recommendations[0].reason, /另一位創作者/);
-});
-
-test('liking a creator recommends works from a different same-topic source', () => {
-  const engine = make();
-  engine.setMode('creator');
-  const liked = engine.current();
-  engine.decide('like');
-  const recommendations = engine.recommendations('work', 3);
-  assert.ok(recommendations.some(({ item }) => item.topic === liked.topic && item.creatorId !== liked.creatorId));
-  assert.ok(recommendations.every(({ item }) => item.creatorId !== liked.creatorId));
-});
-
-test('every reviewed item is excluded from its mode’s future cards and recommendations', () => {
+test('every reviewed item is excluded from its mode’s future sequential cards', () => {
   const engine = make();
   const visited = new Set();
   for (let index = 0; index < 12; index++) {
@@ -83,10 +74,8 @@ test('every reviewed item is excluded from its mode’s future cards and recomme
     assert.ok(!visited.has(current.id));
     visited.add(current.id);
     engine.decide(index % 2 ? 'like' : 'skip');
-    assert.ok(engine.recommendations('work', 12).every(({ item }) => !visited.has(item.id)));
   }
   assert.equal(engine.current(), null);
-  assert.equal(engine.recommendations('work', 12).length, 0);
 });
 
 test('undo recomputes both modes from remaining decisions while preserving inactive progress', () => {
@@ -109,7 +98,7 @@ test('undo recomputes both modes from remaining decisions while preserving inact
   const onlyWork = make();
   onlyWork.decide('like');
   onlyWork.setMode('creator');
-  assert.deepEqual(engine.recommendations('work', 12), onlyWork.recommendations('work', 12));
+  assert.deepEqual(remainingSequentialOrder(engine, 'work'), remainingSequentialOrder(onlyWork, 'work'));
 });
 
 test('shared signals rerank future candidates while each displayed card stays fixed', () => {
@@ -131,7 +120,7 @@ test('collecting and viewing details do not affect interest; reset retains colle
   const id = engine.current().id;
   const original = engine.snapshot().signals;
   engine.item('work', id);
-  engine.recommendations('creator');
+  engine.catalog();
   engine.toggleSaved(id);
   assert.deepEqual(engine.snapshot().signals, original);
   assert.equal(engine.snapshot().modes.work.history.length, 0);
@@ -148,15 +137,146 @@ test('collecting and viewing details do not affect interest; reset retains colle
 });
 
 
-test('recommendations exclude the displayed active card but can include an unseen pinned card in the other mode', () => {
+test('advancing one deck does not consume the other deck’s displayed source or progress', () => {
   const engine = make();
   const workId = engine.current().id;
-  assert.ok(engine.recommendations('work', 12).every(({ item }) => item.id !== workId));
   engine.setMode('creator');
   const creatorId = engine.current().id;
-  assert.ok(engine.recommendations('creator', 6).every(({ item }) => item.id !== creatorId));
-  assert.ok(engine.recommendations('work', 12).some(({ item }) => item.id === workId));
+  engine.decide('skip');
+  const nextCreatorId = engine.current().id;
+  assert.notEqual(nextCreatorId, creatorId);
+  const creatorProgress = structuredClone(engine.snapshot().modes.creator);
   engine.setMode('work');
-  assert.ok(engine.recommendations('creator', 6).some(({ item }) => item.id === creatorId));
   assert.equal(engine.current().id, workId);
+  engine.decide('skip');
+  assert.notEqual(engine.current().id, workId);
+  assert.deepEqual(engine.snapshot().modes.creator, creatorProgress);
+  engine.setMode('creator');
+  assert.equal(engine.current().id, nextCreatorId);
+});
+
+// Exercise the sequential cards themselves. Both decks are opened first so a
+// later cross-mode signal must leave the displayed card pinned, then influence
+// the card selected after that pinned card is advanced.
+function nextSequentialCardAfter(sourceMode, sourceCreatorId, decision) {
+  const engine = make();
+  engine.setMode('creator');
+  const targetMode = sourceMode === 'work' ? 'creator' : 'work';
+  engine.setMode(sourceMode);
+  let attempts = 0;
+  while (engine.current() && engine.current().creatorId !== sourceCreatorId) {
+    assert.ok(++attempts < 12, 'The selected source must be reachable through neutral skips');
+    engine.decide('skip');
+  }
+  const selected = engine.current();
+  assert.ok(selected);
+  const pinnedTarget = structuredClone(engine.snapshot().modes[targetMode]);
+  engine.decide(decision);
+  const afterFeedback = engine.snapshot();
+  const sourceProgress = structuredClone(afterFeedback.modes[sourceMode]);
+  engine.setMode(targetMode);
+  const displayedTarget = engine.current();
+  const onReturn = engine.snapshot();
+  engine.decide('skip');
+  return { engine, selected, targetMode, pinnedTarget, afterFeedback, sourceProgress, displayedTarget, onReturn, next: engine.current() };
+}
+
+function assertPinnedProgress(result, sourceMode) {
+  assert.deepEqual(result.afterFeedback.modes[result.targetMode], result.pinnedTarget,
+    'Feedback in one mode must not replace the other displayed card or its history');
+  assert.equal(result.displayedTarget.id, result.pinnedTarget.currentId,
+    'Returning to the other mode must resume its displayed card');
+  assert.deepEqual(result.onReturn.modes[sourceMode], result.sourceProgress,
+    'Switching modes must preserve the originating deck progress');
+  assert.deepEqual(result.engine.snapshot().modes[sourceMode], result.sourceProgress,
+    'Advancing the receiving deck must not advance the originating deck');
+  assert.equal(result.engine.snapshot().modes[result.targetMode].history.length, result.pinnedTarget.history.length + 1);
+}
+
+test('liking a work changes the next sequential creator card after the pinned creator is advanced', () => {
+  // Choose a noninitial topic so a fixed catalog order cannot accidentally pass.
+  const liked = nextSequentialCardAfter('work', 'build-lab', 'like');
+  const neutral = nextSequentialCardAfter('work', 'build-lab', 'skip');
+  assertPinnedProgress(liked, 'work');
+  assertPinnedProgress(neutral, 'work');
+  assert.equal(liked.next.topic, liked.selected.topic);
+  assert.notEqual(liked.next.creatorId, liked.selected.creatorId, 'The next card should introduce another creator');
+  assert.notEqual(liked.next.id, neutral.next.id, 'The sequential deck must respond to the work like');
+  assert.notEqual(neutral.next.topic, liked.selected.topic, 'A neutral skip must retain the baseline next card');
+  assert.deepEqual(neutral.engine.snapshot().signals, make().snapshot().signals);
+});
+
+test('disliking a work demotes its topic in the next sequential creator card while a skip stays neutral', () => {
+  const disliked = nextSequentialCardAfter('work', 'ai-lab', 'dislike');
+  const neutral = nextSequentialCardAfter('work', 'ai-lab', 'skip');
+  assertPinnedProgress(disliked, 'work');
+  assertPinnedProgress(neutral, 'work');
+  assert.equal(neutral.next.topic, neutral.selected.topic);
+  assert.notEqual(disliked.next.topic, disliked.selected.topic);
+  assert.notEqual(disliked.next.id, neutral.next.id);
+  assert.deepEqual(neutral.engine.snapshot().signals, make().snapshot().signals);
+});
+
+test('liking a creator changes the next sequential work card to a related different source', () => {
+  const liked = nextSequentialCardAfter('creator', 'build-lab', 'like');
+  const neutral = nextSequentialCardAfter('creator', 'build-lab', 'skip');
+  assertPinnedProgress(liked, 'creator');
+  assertPinnedProgress(neutral, 'creator');
+  assert.equal(liked.next.topic, liked.selected.topic);
+  assert.notEqual(liked.next.creatorId, liked.selected.creatorId, 'Creator interest should extend to another source’s work');
+  assert.notEqual(liked.next.id, neutral.next.id, 'The work deck itself must respond to the creator like');
+  assert.notEqual(neutral.next.topic, liked.selected.topic);
+  assert.deepEqual(neutral.engine.snapshot().signals, make().snapshot().signals);
+});
+
+test('disliking a creator changes the next sequential work card while a creator skip stays neutral', () => {
+  const disliked = nextSequentialCardAfter('creator', 'ai-lab', 'dislike');
+  const neutral = nextSequentialCardAfter('creator', 'ai-lab', 'skip');
+  assertPinnedProgress(disliked, 'creator');
+  assertPinnedProgress(neutral, 'creator');
+  assert.equal(neutral.next.topic, neutral.selected.topic);
+  assert.notEqual(disliked.next.topic, disliked.selected.topic);
+  assert.notEqual(disliked.next.id, neutral.next.id);
+  assert.deepEqual(neutral.engine.snapshot().signals, make().snapshot().signals);
+});
+
+test('undoing cross-mode interest restores the baseline future card without disturbing the other displayed card', () => {
+  for (const sourceMode of ['work', 'creator']) {
+    const engine = make();
+    engine.setMode('creator');
+    const targetMode = sourceMode === 'work' ? 'creator' : 'work';
+    const pinned = structuredClone(engine.snapshot().modes[targetMode]);
+    engine.setMode(sourceMode);
+    while (engine.current().creatorId !== 'build-lab') engine.decide('skip');
+    const sourceBeforeLike = structuredClone(engine.snapshot().modes[sourceMode]);
+    engine.decide('like');
+    assert.equal(engine.undo(), true);
+    assert.deepEqual(engine.snapshot().modes[sourceMode], sourceBeforeLike);
+    assert.deepEqual(engine.snapshot().modes[targetMode], pinned);
+    engine.setMode(targetMode);
+    engine.decide('skip');
+    const neutral = nextSequentialCardAfter(sourceMode, 'build-lab', 'skip');
+    assert.equal(engine.current().id, neutral.next.id,
+      'Removing the source feedback must remove its effect from the receiving sequential deck');
+    assert.deepEqual(engine.snapshot().signals, make().snapshot().signals);
+  }
+});
+
+test('the latest explicit negative feedback supersedes an earlier positive anchor in either mode', () => {
+  for (const mode of ['work', 'creator']) {
+    const engine = make();
+    engine.setMode(mode);
+    engine.decide('like');
+    const rejected = engine.current();
+    engine.decide('dislike');
+    const state = engine.snapshot();
+    assert.equal(state.anchor.kind, 'avoid');
+    assert.equal(state.anchor.item.id, rejected.id);
+    assert.match(engine.reason(engine.current(), mode), /不感興趣|降低|減少/);
+    const avoidAnchor = structuredClone(state.anchor);
+    const signals = structuredClone(state.signals);
+    engine.decide('skip');
+    assert.deepEqual(engine.snapshot().anchor, avoidAnchor, 'An explicit neutral skip must not replace negative feedback');
+    assert.deepEqual(engine.snapshot().signals, signals);
+  }
 });

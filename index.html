@@ -4,14 +4,14 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#111d20" />
-  <meta name="description" content="MediaMatch v1.3 — 左右滑作品，也左右滑創作者。兩種模式共用偏好，從喜歡的作品發現其他創作者，再從創作者找到更多相關作品。" />
+  <meta name="description" content="MediaMatch v1.3 — 左右滑作品，也左右滑創作者。任何一種模式的滑動回饋，都會直接調整兩邊後續出現的卡片；切換模式保留目前卡片與進度。" />
   <meta property="og:title" content="MediaMatch — 滑出你想知道的世界" />
   <meta property="og:url" content="https://raga0106.github.io/mediamatch-showcase/" />
   <link rel="canonical" href="https://raga0106.github.io/mediamatch-showcase/" />
-  <meta property="og:description" content="作品探索 ⇄ 創作者探索：切換模式保留進度，雙向推薦幫你走向其他相關來源。右滑表達興趣，追蹤建立長期資訊圈。" />
+  <meta property="og:description" content="作品探索 ⇄ 創作者探索：右滑有興趣，左滑不感興趣，直接調整兩種模式後續的卡片順序。切換保留進度，明確追蹤建立長期資訊圈。" />
   <title>MediaMatch — 滑出你想知道的世界｜產品構想 & 夥伴招募</title>
-  <link rel="stylesheet" href="creators.css" />
-  <link rel="stylesheet" href="discovery.css?v=1.3.2" />
+  <link rel="stylesheet" href="creators.css?v=1.3.3" />
+  <link rel="stylesheet" href="discovery.css?v=1.3.3" />
   <style>
     :root {
       color-scheme: light;
@@ -396,7 +396,7 @@
         <div>
           <div class="hero-badge"><span></span> v1.3 雙模式探索 · 尋找共同開發夥伴</div>
           <h1>滑出<br>你想知道的<br><em>世界。</em></h1>
-          <p class="lead">一篇好作品，帶你認識更多值得追的人。<br>一位喜歡的創作者，也能帶你找到其他來源的作品。<br><strong style="color:white">MediaMatch</strong>，由你親自訓練的跨平台內容與創作者探索引擎。</p>
+          <p class="lead">喜歡一篇作品，或一位創作者，<br>都會改變接下來遇見的作品與創作者。<br><strong style="color:white">MediaMatch</strong>，讓每次滑動的回饋，直接成為後續卡片的排序依據。</p>
           <div class="hero-cta"><a class="btn btn-primary" href="#experience">體驗雙模式配對 <svg><use href="#i-arrow"/></svg></a><a class="btn btn-outline-light" href="#creators">看看創作者與作品 <svg><use href="#i-arrow"/></svg></a></div>
           <div class="hero-foot"><span><b></b>作品 ⇄ 創作者</span><span><b></b>共用偏好，保留進度</span><span><b></b>喜歡與追蹤分開</span></div>
         </div>
@@ -415,7 +415,7 @@
         </div>
       </div>
     </section>
-    <div class="hero-bottom-band"><div class="container band-inner"><strong>右滑作品，發現其他創作者。右滑創作者，發現其他作品。</strong><span>從一次興趣，走向更大的資訊圈。</span></div></div>
+    <div class="hero-bottom-band"><div class="container band-inner"><strong>作品與創作者，左右滑都會改變兩邊接下來的卡片。</strong><span>繼續滑，從熟悉的主題走向新的來源。</span></div></div>
 
     <section class="section" id="problem">
       <div class="container">
@@ -427,18 +427,18 @@
           <article class="problem-card reveal"><span class="problem-no">PROBLEM / 02</span><h3>演算法不受控制</h3><p>平台越來越了解你會點什麼，卻不一定知道你真正想學什麼，更難讓你直接調整推薦方向。</p></article>
           <article class="problem-card reveal"><span class="problem-no">PROBLEM / 03</span><h3>同個主題，該追誰？</h3><p>同樣談 AI，有人做技術實測，有人整理新聞。只知道分類還不夠，你需要找到符合自己深度與風格的來源。</p></article>
         </div>
-        <div class="answer-strip reveal"><div><strong>找到你想學的事，也找到願意持續關注的人。</strong><p>把「主題興趣」「創作者風格」「單篇收穫」分開理解，讓推薦逐漸認識你的資訊品味。</p></div><span class="icon" aria-hidden="true">↗</span></div>
+        <div class="answer-strip reveal"><div><strong>找到你想學的事，也找到願意持續關注的人。</strong><p>把「主題興趣」「創作者風格」「單篇收穫」分開理解，讓後續卡片逐漸貼近你的資訊品味。</p></div><span class="icon" aria-hidden="true">↗</span></div>
       </div>
     </section>
 
     <section class="section how" id="how">
       <div class="container">
         <div class="tag green reveal">02 / THE IDEA</div><h2 class="display section-heading reveal">把找知識這件事，<br>變得像配對一樣直覺。</h2>
-        <p class="section-lead reveal">兩種模式都用左右滑動。可以先從作品找人，也可以從人找作品；推薦會延伸到相近主題或風格的其他來源。</p>
+        <p class="section-lead reveal">作品與創作者都用左右滑動探索。任何一種模式的正負回饋，都會直接調整兩邊後續卡片的順序：有興趣的主題與風格優先，不感興趣的方向往後。</p>
         <div class="how-grid">
           <article class="how-card reveal"><span class="how-num">STEP 01</span><div class="how-icon"><svg><use href="#i-layers"/></svg></div><h3>選一個探索入口</h3><p>作品模式看影片與文章；創作者模式看頻道、作者與資訊來源。</p></article>
-          <article class="how-card reveal"><span class="how-num">STEP 02</span><div class="how-icon"><svg><use href="#i-heart"/></svg></div><h3>滑動表達興趣</h3><p>右滑喜歡，左滑略過。不確定時先查看詳情；喜歡創作者不會自動追蹤。</p></article>
-          <article class="how-card reveal"><span class="how-num">STEP 03</span><div class="how-icon"><svg><use href="#i-compass"/></svg></div><h3>沿著推薦換個方向</h3><p>從作品看相關創作者，也從創作者發現其他來源的作品。切換時保留各自進度。</p></article>
+          <article class="how-card reveal"><span class="how-num">STEP 02</span><div class="how-icon"><svg><use href="#i-heart"/></svg></div><h3>滑動表達興趣</h3><p>右滑有興趣，左滑不感興趣，兩者都會影響後續卡片。不確定時可按「略過」保持中立；喜歡創作者不會自動追蹤。</p></article>
+          <article class="how-card reveal"><span class="how-num">STEP 03</span><div class="how-icon"><svg><use href="#i-compass"/></svg></div><h3>繼續滑，看見興趣延伸</h3><p>兩種模式都會調整後續卡片。切換時保留目前那張與各自進度，新的排序用在後面的卡片。</p></article>
           <article class="how-card reveal"><span class="how-num">STEP 04</span><div class="how-icon"><svg><use href="#i-bookmark"/></svg></div><h3>收藏作品，追蹤來源</h3><p>想長期關注時再明確追蹤，閱讀後留下收穫評價，讓自己的資訊圈逐步成形。</p></article>
         </div>
       </div>
@@ -448,7 +448,7 @@
       <div class="container">
         <div class="tag light reveal">03 / DUAL MODE DISCOVERY · v1.3</div>
         <h2 class="display section-heading reveal">作品與創作者，<br><span style="color:var(--lime)">一起滑，雙向發現。</span></h2>
-        <p class="section-lead reveal">先喜歡一篇作品，再切換創作者模式；或先認識一位作者，看看其他來源中有哪些相關作品。兩種模式共用這次探索的偏好，進度各自保留。</p>
+        <p class="section-lead reveal">直接在兩種模式滑卡片：右滑有興趣，左滑不感興趣；按「略過」保持中立。作品與創作者共用偏好，兩邊接下來的卡片會一起調整順序；切換模式保留目前那張及各自進度，繼續滑就能看見變化。</p>
         <div id="discoveryDemo"></div>
         <noscript><p class="small-note">請啟用 JavaScript 體驗作品與創作者的雙模式配對。兩種探索共用偏好，並保留各自進度。</p></noscript>
       </div>
@@ -478,7 +478,7 @@
           <div class="feature-big reveal"><div class="feature-icon"><svg><use href="#i-compass"/></svg></div><div><h3>「有收穫」是你的體驗。<br>可信度需要可查證的證據。</h3><p>不把粉絲數、點擊或喜歡直接當作內容品質，也不把個人偏好包裝成作者的客觀排名。</p></div></div>
           <div class="feature-stack">
             <div class="feature-small reveal"><div class="illustration">◎</div><div><h3>具體到作品的偏好</h3><p>你可以喜歡作者的實測，同時對他的新聞整理興趣不高。</p></div></div>
-            <div class="feature-small reveal"><div class="illustration">↗</div><div><h3>從熟悉，走向其他來源</h3><p>作品與創作者互相推薦，也保留跨來源探索；每種模式都能回顧這輪的選擇。</p></div></div>
+            <div class="feature-small reveal"><div class="illustration">↗</div><div><h3>從熟悉，走向其他來源</h3><p>兩種模式的正負回饋共同調整後續卡片，讓同主題的其他創作者與作品接著出現；每種模式都能回顧這輪的選擇。</p></div></div>
           </div>
         </div>
       </div>
@@ -501,14 +501,14 @@
     <section class="section architecture" id="tech">
       <div class="container">
         <div class="tag green reveal">07 / HOW WE WILL BUILD IT</div>
-        <h2 class="display section-heading reveal">從內容流到推薦流。<br>讓想法真正能運作。</h2>
-        <p class="section-lead reveal">免費、開源優先，不以付費 AI API 作為必要前提。先用無需 API Key、資料庫與登入的 Demo 驗證體驗，再逐階段導入真實來源與可測試的推薦邏輯。</p>
+        <h2 class="display section-heading reveal">從內容匯入，到下一張卡片。<br>讓興趣真正影響探索。</h2>
+        <p class="section-lead reveal">免費、開源優先，不以付費 AI API 作為必要前提。先用無需 API Key、資料庫與登入的 Demo 驗證體驗，再逐階段導入真實來源與可測試的卡片排序邏輯。</p>
         <div class="pipeline">
           <div class="pipe-step reveal"><div class="pipe-icon"><svg><use href="#i-layers"/></svg></div><h3>跨平台 Connector</h3><p>RSS、YouTube、公開資料來源</p></div>
           <div class="pipe-step reveal"><div class="pipe-icon"><svg><use href="#i-filter"/></svg></div><h3>內容標準化</h3><p>標籤、語言、摘要、去重</p></div>
           <div class="pipe-step reveal"><div class="pipe-icon"><svg><use href="#i-db"/></svg></div><h3>來源與代表作品</h3><p>主題歸屬、作品、追蹤清單</p></div>
           <div class="pipe-step reveal"><div class="pipe-icon"><svg><use href="#i-spark"/></svg></div><h3>共用偏好引擎</h3><p>主題 × 創作者 × 作品訊號</p></div>
-          <div class="pipe-step reveal"><div class="pipe-icon"><svg><use href="#i-heart"/></svg></div><h3>雙向推薦與回饋</h3><p>作品 ⇄ 創作者，持續探索</p></div>
+          <div class="pipe-step reveal"><div class="pipe-icon"><svg><use href="#i-heart"/></svg></div><h3>後續卡片排序</h3><p>兩種模式共用偏好，繼續滑動</p></div>
         </div>
         <div class="tech-line"><span>正式 App 預計採用</span><span>Next.js / TypeScript</span><span>Tailwind CSS</span><span>PostgreSQL</span><span>RSS / YouTube</span><span>pgvector（後期評估）</span><span>Open Source First</span></div>
       </div>
@@ -535,9 +535,9 @@
         <h2 class="display section-heading reveal">先做對一件事。<br>然後把它做大。</h2>
         <p class="section-lead reveal">這是計畫中的開發階段，不是假裝已經完成的功能清單。每個階段都應該能展示、測試、驗證。</p>
         <div class="roadmap-list">
-          <article class="milestone highlight reveal"><div class="mile-head"><span class="mile-id">PHASE 0–1</span><span class="mile-badge">v1.3 · 優先驗證</span></div><h3>雙模式，驗證同一套偏好</h3><p>用測試資料驗證從作品到人、再從人到其他作品的探索循環。</p><ul><li>作品／創作者雙模式滑動</li><li>共用偏好與各自保留的進度</li><li>跨來源推薦、詳情與本輪回顧</li><li>喜歡、追蹤與讀後回饋各自記錄</li></ul></article>
+          <article class="milestone highlight reveal"><div class="mile-head"><span class="mile-id">PHASE 0–1</span><span class="mile-badge">v1.3 · 優先驗證</span></div><h3>雙模式，驗證同一套偏好</h3><p>用測試資料驗證左右滑動是否直接影響兩種模式後續的卡片。</p><ul><li>作品／創作者雙模式滑動</li><li>共用偏好與各自保留的進度</li><li>跨來源卡片排序、詳情與本輪回顧</li><li>喜歡、追蹤與讀後回饋各自記錄</li></ul></article>
           <article class="milestone reveal"><div class="mile-head"><span class="mile-id">PHASE 2–3</span><span class="mile-badge">真實資料與內容管理</span></div><h3>接上真正的資訊來源</h3><p>核心體驗通過驗證後，再串接資料層、內容管理與平台來源。</p><ul><li>內容匯入、標準化與去重</li><li>PostgreSQL、RSS、YouTube</li><li>追蹤來源的內容篩選與持久化</li><li>主題 × 創作者偏好與自動化測試</li></ul></article>
-          <article class="milestone reveal"><div class="mile-head"><span class="mile-id">LATER</span><span class="mile-badge">品質優化與長期方向</span></div><h3>建立更有用的資訊圈</h3><p>依真實使用回饋決定擴充順序，逐步探索更多內容與社群連結。</p><ul><li>推薦評估、探索與來源多樣性</li><li>語意推薦、每日精選與偏好問答</li><li>更多媒體類型與可分享清單</li><li>兼顧新來源曝光與評價偏誤</li></ul></article>
+          <article class="milestone reveal"><div class="mile-head"><span class="mile-id">LATER</span><span class="mile-badge">品質優化與長期方向</span></div><h3>建立更有用的資訊圈</h3><p>依真實使用回饋決定擴充順序，逐步探索更多內容與社群連結。</p><ul><li>排序評估、探索與來源多樣性</li><li>語意排序、每日精選與偏好問答</li><li>更多媒體類型與可分享清單</li><li>兼顧新來源曝光與評價偏誤</li></ul></article>
         </div>
         <div class="roadmap-foot"><span aria-hidden="true">✳</span><span>初期成功標準不是「滑得多」，而是「使用者能否找到原本不知道、卻願意持續關注的好來源」。</span></div>
       </div>
@@ -561,9 +561,9 @@
       <div class="container">
         <div class="tag green reveal">11 / FAQ</div><h2 class="display section-heading reveal">你可能還想知道。</h2>
         <div class="faq-list">
-          <details><summary>現在產品已經開發到哪裡？</summary><p>目前是 v1.3 產品構想展示與可操作的前端 Demo。作品與創作者滑動、共用偏好、跨來源推薦、追蹤及讀後回饋使用虛構資料。推薦在這次頁面中以簡單規則計算，重新整理即重設；尚未串接真實來源、使用者帳號或正式推薦後端。</p></details>
+          <details><summary>現在產品已經開發到哪裡？</summary><p>目前是 v1.3 產品構想展示與可操作的前端 Demo。作品與創作者共用興趣，直接調整兩邊後續卡片的順序，並保留追蹤及讀後回饋。所有內容都是虛構資料，排序以簡單規則計算，重新整理即重設；尚未串接真實來源、使用者帳號或正式排序後端。</p></details>
           <details><summary>切換模式會重來嗎？右滑創作者就會追蹤嗎？</summary><p>作品探索和創作者探索各自保留目前卡片及操作進度，切換模式不會重來。右滑創作者只代表感興趣，只有明確按下「追蹤」才會加入長期關注清單；這份展示清單會在重新整理後重設。</p></details>
-          <details><summary>喜歡一篇作品後，只會推薦它的作者嗎？</summary><p>推薦也會延伸到相近主題或風格的其他創作者；反過來，喜歡創作者後，也會看到其他來源的相關作品。示範會說明推薦原因，並讓你繼續查看詳情，不會把查看或切換模式自動當成喜歡。</p></details>
+          <details><summary>左右滑動後，會在哪裡看到變化？</summary><p>繼續滑卡片就能看到。在作品或創作者模式向右或向左滑後，兩邊尚未看過的候選都會重新排序：有興趣的主題與風格更容易出現，不感興趣的方向則降低優先順序。已顯示的卡片保持原位，切換模式不會突然跳卡；新的順序用在接下來的卡片。左滑／← 與 ×「不感興趣」都記錄負回饋；獨立的「略過」按鈕保持中立。</p></details>
           <details><summary>這跟 YouTube、Feedly 或一般 RSS 閱讀器有什麼不同？</summary><p>希望從「我不知道該追誰」的問題出發：同一主題下，分別理解你喜歡哪些創作者、哪些作品與表達風格。再用追蹤管理長期來源，並透過單篇讀後回饋持續調整。</p></details>
           <details><summary>追蹤會直接訂閱我的 YouTube 帳號嗎？</summary><p>MediaMatch 內追蹤，是將來源加入自己的資訊圈。它和外部平台的訂閱分開；正式版初期會提供前往原平台的連結，不會假設能替你操作第三方帳號。本頁的追蹤僅為虛構示範。</p></details>
           <details><summary>個人偏好分數代表作者有多專業、內容有多可信嗎？</summary><p>分數僅示意這位創作者在該主題下與你的偏好是否相合。讀後「有收穫／普通／偏水」描述個人體驗，不是客觀品質、專業能力或真偽評分；可信度仍需要引用、原始資料與查核等證據。</p></details>
@@ -578,7 +578,7 @@
       <div class="container"><div class="closing-card">
         <div class="tag light">LET’S MAKE DISCOVERY BETTER</div>
         <h2 id="closingTitle">網路已經有夠多內容。<br><span>我們來做更好的入口。</span></h2>
-        <p>從作品找到人，從人發現更多作品，讓一次好發現帶出下一個可能。一起把雙向探索、可掌控的偏好與長期來源追蹤，做成真正有用的資訊圈。</p>
+        <p>喜歡作品，也認識創作者，讓一次興趣直接影響接下來的探索。一起把雙模式滑動、可掌控的卡片順序與長期來源追蹤，做成真正有用的資訊圈。</p>
         <div class="closing-actions"><button class="btn btn-primary" data-join>我有興趣參與 <svg><use href="#i-arrow"/></svg></button><button class="btn btn-outline-light" id="shareBtn"><svg><use href="#i-share"/></svg> 分享這個構想</button></div>
       </div></div>
     </section>
@@ -602,8 +602,8 @@
   </div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="creators.js"></script>
-  <script src="discovery.js?v=1.3.2"></script>
+  <script src="creators.js?v=1.3.3"></script>
+  <script src="discovery.js?v=1.3.3"></script>
   <script>
     'use strict';
     // 若有專案網站與聯絡方式，請替換空字串即可（此檔案不會收集使用者資料）。
@@ -619,7 +619,7 @@
     function showToast(msg){toast.textContent=msg;toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),2400);}
 
     // Recruit / share interface
-    const pitch='MediaMatch v1.3 是雙模式、雙向推薦的跨平台探索引擎：左右滑作品，也左右滑創作者。兩種模式共用偏好並各自保留進度，從喜歡的作品發現其他相關創作者，也從創作者找到其他來源的作品。右滑表示興趣，明確追蹤才加入長期清單。先用無需 API Key 的 Demo 驗證，再逐步串接真實來源。現在正在尋找一起設計、開發、測試的夥伴。';
+    const pitch='MediaMatch v1.3 是雙模式的跨平台探索引擎：左右滑作品，也左右滑創作者。任何一種模式的滑動回饋，都會直接調整兩邊後續出現的卡片。已顯示的卡片與各自進度保留，繼續滑就能看見排序變化。右滑表示興趣、左滑表示不感興趣，兩者都調整後續卡片；「略過」按鈕保持中立；明確追蹤才加入長期清單。先用無需 API Key 的 Demo 驗證，再逐步串接真實來源。現在正在尋找一起設計、開發、測試的夥伴。';
     let selectedRole='不拘，想一起討論';
     let lastFocus=null;
     const modal=byId('joinModal');

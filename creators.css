@@ -82,8 +82,6 @@
 .creator-works-heading { font-size: 20px; letter-spacing: -.035em; margin: 0 0 10px; }
 .creator-works-intro { color: #63746a; font-size: 12px; line-height: 1.85; margin: 0 0 17px; }
 .creator-work-list { display: grid; gap: 13px; }
-.creator-related-heading { margin-top: 26px; }
-.creator-related-list { display: grid; gap: 13px; }
 .creator-work { border: 1px solid #dfe7d8; border-radius: 16px; background: #fff; padding: 20px; }
 .creator-work-format { font-size: 10px; color: #72846a; font-weight: 700; }
 .creator-work h4 { font-size: 17px; letter-spacing: -.025em; margin: 10px 0 8px; line-height: 1.5; }
