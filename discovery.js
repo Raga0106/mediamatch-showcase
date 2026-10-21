@@ -173,7 +173,73 @@
     };
   }
 
-  if (typeof module !== 'undefined' && module.exports) module.exports = { createEngine };
+  // Bind one gesture at a time. Touch devices implicitly capture the child
+  // under the finger, so capture transfers must not cancel the card gesture.
+  function installSwipe(card, onDecision) {
+    let pointer = null;
+    const interactive = target => target && typeof target.closest === 'function' && target.closest('button,a,input,select,textarea');
+    const clear = () => {
+      card.style.transform = '';
+      card.removeAttribute('data-swipe-direction');
+      card.classList.remove('discovery-dragging');
+      pointer = null;
+    };
+    const release = id => {
+      try {
+        if (typeof card.releasePointerCapture === 'function' &&
+            (typeof card.hasPointerCapture !== 'function' || card.hasPointerCapture(id))) card.releasePointerCapture(id);
+      } catch (_error) { /* Capture may already have been released by the browser. */ }
+    };
+    const position = event => {
+      if (Number.isFinite(event.clientX)) pointer.dx = event.clientX - pointer.x;
+      if (Number.isFinite(event.clientY)) pointer.dy = event.clientY - pointer.y;
+    };
+    card.addEventListener('pointerdown', event => {
+      if (pointer || event.isPrimary === false || (event.button !== undefined && event.button !== 0) || interactive(event.target)) return;
+      pointer = { id: event.pointerId, x: event.clientX, y: event.clientY, dx: 0, dy: 0, horizontal: false, vertical: false };
+      // Capture before the first move. A child's lostpointercapture can bubble
+      // during this transfer; the listener below ignores that child event.
+      try {
+        if (typeof card.setPointerCapture === 'function') card.setPointerCapture(event.pointerId);
+      } catch (_error) { /* Pointer events still work while inside the card. */ }
+    });
+    card.addEventListener('pointermove', event => {
+      if (!pointer || pointer.id !== event.pointerId || pointer.vertical) return;
+      position(event);
+      if (!pointer.horizontal && Math.abs(pointer.dy) > 12 && Math.abs(pointer.dy) > Math.abs(pointer.dx)) { pointer.vertical = true; return; }
+      if (!pointer.horizontal && Math.abs(pointer.dx) > 12 && Math.abs(pointer.dx) > Math.abs(pointer.dy) * 1.3) {
+        pointer.horizontal = true;
+        card.classList.add('discovery-dragging');
+      }
+      if (!pointer.horizontal) return;
+      if (event.cancelable) event.preventDefault();
+      card.style.transform = `translateX(${Math.max(-130, Math.min(130, pointer.dx))}px) rotate(${pointer.dx / 28}deg)`;
+      card.dataset.swipeDirection = pointer.dx > 0 ? 'like' : 'skip';
+    });
+    card.addEventListener('pointerup', event => {
+      if (!pointer || pointer.id !== event.pointerId) return;
+      position(event);
+      const id = pointer.id;
+      const choice = !pointer.vertical && Math.abs(pointer.dx) > 70 && Math.abs(pointer.dx) > Math.abs(pointer.dy) * 1.3
+        ? (pointer.dx > 0 ? 'like' : 'skip') : null;
+      clear();
+      release(id);
+      if (choice) onDecision(choice);
+    });
+    card.addEventListener('pointercancel', event => {
+      if (!pointer || pointer.id !== event.pointerId) return;
+      const id = pointer.id;
+      clear();
+      release(id);
+    });
+    card.addEventListener('lostpointercapture', event => {
+      if (!pointer || event.target !== card || pointer.id !== event.pointerId) return;
+      if (typeof card.hasPointerCapture === 'function' && card.hasPointerCapture(event.pointerId)) return;
+      clear();
+    });
+  }
+
+  if (typeof module !== 'undefined' && module.exports) module.exports = { createEngine, installSwipe };
   if (!global.document) return;
 
   const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
@@ -238,7 +304,7 @@
         slot.innerHTML = `<div id="discoveryCard" class="discovery-complete" tabindex="0"><span aria-hidden="true">✓</span><p>${MODE_NAMES[state.activeMode]} · 本輪完成</p><h3>每一個選擇，<br>都讓探索更像你。</h3><p>已看過 ${history.length} ${state.activeMode === 'work' ? '篇作品' : '位創作者'}，其中 ${history.filter(event => event.decision === 'like').length} ${state.activeMode === 'work' ? '篇' : '位'}有興趣。切到另一種探索，沿用同一份偏好。</p><button type="button" class="discovery-detail" data-discovery-switch-other>繼續${MODE_NAMES[state.activeMode === 'work' ? 'creator' : 'work']} →</button></div>`;
       } else {
         slot.innerHTML = `<article id="discoveryCard" class="discovery-card" tabindex="0" aria-label="${MODE_NAMES[state.activeMode]}：${escapeHTML(state.activeMode === 'work' ? item.title : item.name)}" aria-describedby="discoveryGestureHelp" data-discovery-item="${escapeHTML(item.id)}">${state.activeMode === 'work' ? workCard(item) : creatorCard(item)}</article>`;
-        installSwipe(slot.querySelector('.discovery-card'));
+        installSwipe(slot.querySelector('.discovery-card'), decision => act(decision, false));
       }
     }
     const currentReason = slot.querySelector('.discovery-current-reason');
@@ -319,42 +385,6 @@
     announce(`已切換${MODE_NAMES[mode]}，繼續原本進度：已探索 ${state.modes[mode].history.length} / ${state.totals[mode]}。`);
   }
 
-  function installSwipe(card) {
-    let pointer = null;
-    const clear = () => {
-      card.style.transform = '';
-      card.removeAttribute('data-swipe-direction');
-      card.classList.remove('discovery-dragging');
-      pointer = null;
-    };
-    card.addEventListener('pointerdown', event => {
-      if (!event.isPrimary || event.button !== 0 || event.target.closest('button,a,input,select,textarea')) return;
-      pointer = { id: event.pointerId, x: event.clientX, y: event.clientY, dx: 0, dy: 0, horizontal: false, vertical: false };
-    });
-    card.addEventListener('pointermove', event => {
-      if (!pointer || pointer.id !== event.pointerId || pointer.vertical) return;
-      pointer.dx = event.clientX - pointer.x;
-      pointer.dy = event.clientY - pointer.y;
-      if (!pointer.horizontal && Math.abs(pointer.dy) > 12 && Math.abs(pointer.dy) > Math.abs(pointer.dx)) { pointer.vertical = true; return; }
-      if (!pointer.horizontal && Math.abs(pointer.dx) > 12 && Math.abs(pointer.dx) > Math.abs(pointer.dy) * 1.3) {
-        pointer.horizontal = true;
-        card.setPointerCapture(event.pointerId);
-        card.classList.add('discovery-dragging');
-      }
-      if (!pointer.horizontal) return;
-      if (event.cancelable) event.preventDefault();
-      card.style.transform = `translateX(${Math.max(-130, Math.min(130, pointer.dx))}px) rotate(${pointer.dx / 28}deg)`;
-      card.dataset.swipeDirection = pointer.dx > 0 ? 'like' : 'skip';
-    });
-    card.addEventListener('pointerup', event => {
-      if (!pointer || pointer.id !== event.pointerId) return;
-      const choice = pointer.horizontal && Math.abs(pointer.dx) > 70 && Math.abs(pointer.dx) > Math.abs(pointer.dy) * 1.3 ? (pointer.dx > 0 ? 'like' : 'skip') : null;
-      clear();
-      if (choice) act(choice, false);
-    });
-    card.addEventListener('pointercancel', clear);
-    card.addEventListener('lostpointercapture', clear);
-  }
 
   function openCreator(id) {
     if (!creatorAPI()) return;
